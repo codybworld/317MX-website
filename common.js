@@ -6,6 +6,10 @@
  motion.addEventListener('click',()=>{const off=!body.classList.contains('paused');setMotion(off);try{localStorage.setItem('317mx-motion',off?'off':'on')}catch{}});
  reduce.addEventListener('change',e=>setMotion(e.matches||stored()==='off'));
  const menu=document.querySelector('.menu-toggle'),nav=document.querySelector('nav');menu.onclick=()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open)};
+ const closeMenu=()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')};
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){closeMenu();menu.focus()}});
+ document.addEventListener('click',e=>{if(!e.target.closest('header'))closeMenu()});
+ matchMedia('(max-width:1100px)').addEventListener('change',closeMenu);
  nav.querySelectorAll('a').forEach(a=>{if(a.pathname===location.pathname&&!a.hash)a.setAttribute('aria-current','page');a.onclick=()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}});
  document.querySelectorAll('[data-letters]').forEach(el=>{const text=el.textContent;el.setAttribute('aria-label',text);el.replaceChildren();[...text].forEach((ch,i)=>{const span=document.createElement('span');span.textContent=ch===' '?'\u00a0':ch;span.className='letter';span.setAttribute('aria-hidden','true');span.style.setProperty('--speed',(5+i%6)+'s');span.style.setProperty('--delay',(-i*.24)+'s');span.style.setProperty('--dy',(i%2?-3:3)+'px');el.append(span)})});
  const targets=document.querySelectorAll('.reveal,.page-heading,.wood-panel,.about-portrait,.main-logo,.identity>.actions,.identity>.address');

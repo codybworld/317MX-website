@@ -17,7 +17,8 @@
     "image": "assets/tracks/61401.webp",
     "sourceImage": "https://i.imgur.com/CBFPEDo.png",
     "imageFit": "contain",
-    "imageNote": "The forum post supplies this track logo and a video, rather than a separate screenshot."
+    "imageNote": "The forum post supplies this track logo and a video, rather than a separate screenshot.",
+    "rotationId": "HiddenAcresMX"
   },
   {
     "name": "Gnarly Mountain Moto Park",
@@ -29,31 +30,36 @@
     "name": "Daydream MX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?t=59500",
     "image": "assets/tracks/59500.webp",
-    "sourceImage": "https://i.imgur.com/ElkurGa.png"
+    "sourceImage": "https://i.imgur.com/ElkurGa.png",
+    "rotationId": "DaydreamMX"
   },
   {
     "name": "Dazed Woods MX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?t=59751",
     "image": "assets/tracks/59751.webp",
-    "sourceImage": "https://i.imgur.com/wPAc9bZ.png"
+    "sourceImage": "https://i.imgur.com/wPAc9bZ.png",
+    "rotationId": "DazedWoodsMX"
   },
   {
     "name": "Ze Chem Motopark",
     "url": "https://forum.mxsimulator.com/viewtopic.php?t=58959",
     "image": "assets/tracks/58959.webp",
-    "sourceImage": "https://i.imgur.com/SVgYVgz.png"
+    "sourceImage": "https://i.imgur.com/SVgYVgz.png",
+    "rotationId": "317ZECHEM"
   },
   {
     "name": "Portal Ridge MX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?t=61496",
     "image": "assets/tracks/61496.webp",
-    "sourceImage": "https://i.imgur.com/69h5Mx5.jpeg"
+    "sourceImage": "https://i.imgur.com/69h5Mx5.jpeg",
+    "rotationId": "PortalRidgeMX"
   },
   {
     "name": "Deadly Ranch Motopark",
     "url": "https://forum.mxsimulator.com/viewtopic.php?t=59265",
     "image": "assets/tracks/59265.webp",
-    "sourceImage": "https://i.imgur.com/gRH8Hvn.png"
+    "sourceImage": "https://i.imgur.com/gRH8Hvn.png",
+    "rotationId": "317DeadlyRanch"
   },
   {
     "name": "The Moto Nature Reserve",
@@ -72,7 +78,8 @@
     "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=60724&p=915591#p915591",
     "image": "assets/tracks/60724.webp",
     "sourceImage": "https://i.imgur.com/Vn5RBu8.jpeg",
-    "imagePosition": "50% 14%"
+    "imagePosition": "50% 14%",
+    "rotationId": "MushroomMX"
   },
   {
     "name": "Pot Leaf SX",
@@ -81,10 +88,22 @@
     "sourceImage": "https://i.imgur.com/7fHCiJ0.png"
   },
   {
-    "name": "Official CANVAS Compound",
+    "name": "Official CANVAS Compound MX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59460&p=909967#p909967",
     "image": "assets/tracks/59460.webp",
-    "sourceImage": "https://i.imgur.com/0L18x8c.png"
+    "sourceImage": "https://i.imgur.com/0L18x8c.png",
+    "recordsQuery": "Compound MX",
+    "downloadNote": "Download includes MX + SX",
+    "rotationId": "OfficialCNVSCompoundMX"
+  },
+  {
+    "name": "Official CANVAS Compound SX",
+    "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59460&p=909967#p909967",
+    "image": "assets/tracks/59460.webp",
+    "sourceImage": "https://i.imgur.com/0L18x8c.png",
+    "recordsQuery": "Compound SX",
+    "downloadNote": "Download includes MX + SX",
+    "rotationId": "OfficialCNVSCompoundSX"
   },
   {
     "name": "Lysergic MX",
@@ -96,13 +115,15 @@
     "name": "Pot Leaf MX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59152&p=908269#p908269",
     "image": "assets/tracks/59152.webp",
-    "sourceImage": "https://i.imgur.com/lOln4OC.png"
+    "sourceImage": "https://i.imgur.com/lOln4OC.png",
+    "rotationId": "317PotLeafMX"
   },
   {
     "name": "BGFX: Warehouse SX",
     "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=42777&p=748586#p748586",
     "image": "assets/tracks/42777.webp",
-    "sourceImage": "https://i.imgur.com/qH9Rh72.png"
+    "sourceImage": "https://i.imgur.com/qH9Rh72.png",
+    "rotationId": "BGFXWarehouseSX"
   },
   {
     "name": "BGFX: Autumn SX",
