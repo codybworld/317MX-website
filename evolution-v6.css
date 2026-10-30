@@ -31,6 +31,7 @@ nav{gap:14px;font-size:12px;letter-spacing:1px}nav a{white-space:nowrap}.rotatio
 }
 @media(max-width:360px){.rotation-section{padding-inline:10px}.rotation-surface{padding-inline:9px}.rotation-item{grid-template-columns:14px 40px minmax(0,1fr) auto;gap:5px;padding-inline:5px}.rotation-item>img{width:40px;height:40px}.rotation-name h3{font-size:16px}.rotation-download{padding:10px 6px;font-size:9px}.rotation-bottom{flex-direction:column}.rotation-bottom .button{width:100%}.grid>.card{flex-basis:100%;max-width:280px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.rotation-item,.rotation-shortcut{transition:none}.botanical-edge,.nebula{animation:none}}
+.motion{display:none!important}
 body.paused .nebula{animation:none}html:has(body.paused){scroll-behavior:auto!important}
 /* Use one anchor offset, and keep decorative shimmer off touch screens. */
 .rotation-section{scroll-margin-top:0}

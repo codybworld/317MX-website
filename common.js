@@ -1,10 +1,5 @@
 (() => {
- const body=document.body, motion=document.querySelector('#motion'),reduce=matchMedia('(prefers-reduced-motion: reduce)');
- const stored=()=>{try{return localStorage.getItem('317mx-motion')}catch{return null}};
- function setMotion(paused){body.classList.toggle('paused',paused);motion.textContent=paused?'MOTION: OFF':'MOTION: ON';motion.setAttribute('aria-pressed',String(paused))}
- setMotion(reduce.matches||stored()==='off');
- motion.addEventListener('click',()=>{const off=!body.classList.contains('paused');setMotion(off);try{localStorage.setItem('317mx-motion',off?'off':'on')}catch{}});
- reduce.addEventListener('change',e=>setMotion(e.matches||stored()==='off'));
+ const body=document.body;
  const menu=document.querySelector('.menu-toggle'),nav=document.querySelector('nav');menu.onclick=()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open)};
  const closeMenu=()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')};
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){closeMenu();menu.focus()}});
