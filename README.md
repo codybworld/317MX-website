@@ -12,14 +12,18 @@ Live lap times require a complete observed timing-gate sequence. Position follow
 
 Commit and push changes here to update the Pages mirror. The DigitalOcean copy is deployed separately. Keep all assets and their capitalization intact. Never commit game startup files, SSH keys, private backups or credentials.
 
-## Current rotation (October 29, 2026)
+## Current rotation (October 31, 2026)
 
 Home now lists the 11 configured server layouts before the complete 19-layout collection. CANVAS MX and SX are separate layouts in one download. Every page links to `index.html#rotation`.
 
-`rotation.json` records the supplied rotation and settings (2 laps, 0 minutes, 0-minute interval). The visible list is static HTML so downloads still work without JavaScript. Update both the data file and the home list when you change the actual game rotation; this website list does not alter or automatically read the game configuration.
+`rotation.json` records the supplied rotation and settings (2 laps, 0 race minutes, 10-minute track interval). The visible list is static HTML so downloads still work without JavaScript. Update both the data file and the home list when you change the actual game rotation; this website list does not alter or automatically read the game configuration.
 
 `evolution-v6.css` adds the botanical, geometric and phone-layout foundation. `spectacle-v7.css` and `spectacle-v7.js` add the neon room treatment, floating hero fragments, interactive tilt, command deck, quick dock, track search and random track spotlight. Motion is the default experience; the browser's reduced-motion accessibility preference is still respected.
 
 ## Server commands
 
 The home-page command deck documents `server,listtracks`, `server,callvote settrack #` and `server,callvote erode #`. The `#` is a placeholder for the track number or erode value, and each command has a copy control. Keep this guidance aligned with the live server rules.
+
+## Current track
+
+Home and Live Timing show the current track photo from the same validated live snapshot as the riders table. The bridge exports the documented `track_dir` field as `trackDir`; `rotation.json` maps that ID and exact server names to local images and forum downloads. No extra status polling is added. Stale or unavailable live data clears the current photo rather than guessing from a clock or the configured fallback track. Rotation changes occur at a race restart after the 10-minute interval; a passed track vote may change it sooner.
