@@ -18,4 +18,8 @@ Home now lists the 11 configured server layouts before the complete 19-layout co
 
 `rotation.json` records the supplied rotation and settings (2 laps, 0 minutes, 0-minute interval). The visible list is static HTML so downloads still work without JavaScript. Update both the data file and the home list when you change the actual game rotation; this website list does not alter or automatically read the game configuration.
 
-`evolution-v6.css` adds restrained botanical borders, geometric detail, star glow and phone layout improvements. Reduced motion and the Motion toggle are supported. Backend feeds remain independent of this visual update.
+`evolution-v6.css` adds the botanical, geometric and phone-layout foundation. `spectacle-v7.css` and `spectacle-v7.js` add the neon room treatment, floating hero fragments, interactive tilt, command deck, quick dock, track search and random track spotlight. Motion is the default experience; the browser's reduced-motion accessibility preference is still respected.
+
+## Server commands
+
+The home-page command deck documents `server,listtracks`, `server,callvote settrack #` and `server,callvote erode #`. The `#` is a placeholder for the track number or erode value, and each command has a copy control. Keep this guidance aligned with the live server rules.
