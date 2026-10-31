@@ -1,0 +1,8 @@
+.rotation-pack{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px;margin:24px 0;border:1px solid #b89c58;background:linear-gradient(115deg,#243b20bb,#21180eef 55%,#542a21aa);box-shadow:inset 0 0 25px #c9ae4820,0 0 22px #86a94918;text-align:left}
+.rotation-pack strong{color:#eee0b9;font-size:1.35rem;letter-spacing:.04em}
+.rotation-pack p{margin:7px 0 0;color:#d5c7a4}
+.rotation-pack .pack-install{max-width:650px;font-size:.95rem;line-height:1.6}
+.bundle-download{flex-shrink:0;background:#acbf76;color:#211b0e;text-align:center;white-space:normal;line-height:1.4;min-height:48px}
+.pack-inline{margin:20px 0;text-align:center}
+.pack-inline p{margin:7px 0 0;color:#d5c7a4;font-size:.95rem}
+@media(max-width:760px){.rotation-pack{flex-direction:column;align-items:stretch;padding:18px;gap:16px}.rotation-pack strong{font-size:1.15rem}.bundle-download{max-width:100%;box-sizing:border-box;font-size:13px;letter-spacing:.045em}.rotation-pack .pack-install{font-size:.9rem}.pack-inline{padding:0 8px}.pack-inline .bundle-download{width:100%}}
