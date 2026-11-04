@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "laps": 2,
   "minutes": 0,
   "trackIntervalMinutes": 10,
@@ -155,22 +155,22 @@
       "trackIntervalMinutes": 10
     },
     {
-      "id": "2026japan",
-      "rotationId": "2026japan",
-      "name": "2026 Japan SX",
+      "id": "DelbSx",
+      "rotationId": "DelbSx",
+      "name": "Delb SX",
       "serverNames": [
-        "2026 CH Japan SX"
+        "DelbSX"
       ],
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=61906",
-      "image": "assets/tracks/61906.webp",
-      "sourceImage": "https://i.imgur.com/ugeGiLR.jpeg",
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=42795",
+      "image": "assets/tracks/42795.webp",
+      "sourceImage": "https://i.imgur.com/QERQbNd.png",
       "guest": true,
-      "credit": "Guest track · forum post by ktm161 · edit by Carl",
+      "credit": "Guest track · KaWorkz / kylemx322 · thanks to Josh (JGMX)",
       "laps": 7,
       "minutes": 0,
       "trackIntervalMinutes": 999999999,
       "includedInPack": false
     }
   ],
-  "featuredTrackId": "2026japan"
+  "featuredTrackId": "DelbSx"
 }

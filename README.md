@@ -14,7 +14,7 @@ Commit and push changes here to update the Pages mirror. The DigitalOcean copy i
 
 ## Current rotation (October 31, 2026)
 
-Home now lists 12 server layouts: the original 11 plus the guest track 2026 Japan SX. The complete 19-layout 317MX collection remains Cody B’s own tracks. CANVAS MX and SX are separate layouts in one download. Every page links to `index.html#rotation`.
+Home now lists 12 server layouts: the original 11 plus the guest track Delb SX. The complete 19-layout 317MX collection remains Cody B’s own tracks. CANVAS MX and SX are separate layouts in one download. Every page links to `index.html#rotation`.
 
 `rotation.json` records the supplied rotation and settings (2 laps, 0 race minutes, 10-minute track interval). The visible list is static HTML so downloads still work without JavaScript. Update both the data file and the home list when you change the actual game rotation; this website list does not alter or automatically read the game configuration.
 
@@ -28,6 +28,6 @@ The home-page command deck documents `server,listtracks`, `server,callvote settr
 
 Home and Live Timing show the current track photo from the same validated live snapshot as the riders table. The bridge exports the documented `track_dir` field as `trackDir`; `rotation.json` maps that ID and exact server names to local images and forum downloads. No extra status polling is added. Stale or unavailable live data clears the current photo rather than guessing from a clock or the configured fallback track. Rotation changes occur at a race restart after the 10-minute interval; a passed track vote may change it sooner.
 
-## Guest track: 2026 Japan SX (November 3, 2026)
+## Guest track: Delb SX (November 4, 2026)
 
-`2026japan` is a guest track, forum post by ktm161 with an edit credit to Carl. Forum: https://forum.mxsimulator.com/viewtopic.php?f=4&t=61906 . It uses 7 laps, 0 race minutes, and a 999999999-minute track interval. The original 11 tracks retain 2 laps and 10-minute intervals. Japan SX is downloaded separately from its forum post; the existing 11-track ZIP is unchanged. Current-track cards now render lap counts and interval text per layout. The server selects Japan once at process startup; votes and later race restarts work normally.
+`DelbSx` is a guest track, by KaWorkz / kylemx322, with thanks to Josh (JGMX). Forum: https://forum.mxsimulator.com/viewtopic.php?t=42795 . It uses 7 laps, 0 race minutes, and a 999999999-minute track interval. The original 11 tracks retain 2 laps and 10-minute intervals. Delb SX is downloaded separately from its forum post; the existing 11-track ZIP is unchanged. Current-track cards now render lap counts and interval text per layout. The server selects Japan once at process startup; votes and later race restarts work normally.

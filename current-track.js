@@ -13,9 +13,9 @@
     const interval = track?.trackIntervalMinutes;
     const settings = (laps ? laps+'-LAP RACES' : 'PER-TRACK RACE SETTINGS') +
       (interval === 999999999 ? ' · EXTENDED STAY' : Number.isFinite(interval) ? ' · '+interval+'-MINUTE TRACK INTERVAL' : '');
-    const rule = interval === 999999999 ? 'Japan SX uses a 999,999,999-minute interval. Change tracks with a passed vote or an admin command.' :
+    const rule = interval === 999999999 ? 'Delb SX uses a 999,999,999-minute interval. Change tracks with a passed vote or an admin command.' :
       Number.isFinite(interval) ? 'The next track loads at a race restart after the interval. A passed track vote can change it sooner.' :
-      'Original tracks: 2 laps / 10-minute intervals. Japan SX: 7 laps / extended stay.';
+      'Original tracks: 2 laps / 10-minute intervals. Delb SX: 7 laps / extended stay.';
     return {track: track || null, name: track?.name || snapshot.track || snapshot.trackDir || 'Waiting for first race', waiting:!id&&!name, pending, settings, rule, generatedAt: snapshot.generatedAt};
   }
   if (typeof module !== 'undefined' && module.exports) { module.exports = {currentModel}; return; }
@@ -58,7 +58,7 @@
     }
   }
   document.addEventListener('317mx:status', event => { snapshot = event.detail; render(); });
-  fetch('rotation.json?v=20261103-japan', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
+  fetch('rotation.json?v=20261104-delb', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
     .then(response => { if (!response.ok) throw Error('Rotation unavailable'); return response.json(); })
     .then(data => { tracks = Array.isArray(data.tracks) ? data.tracks : []; render(); })
     .catch(() => { tracks = []; render(); });
