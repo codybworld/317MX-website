@@ -4,11 +4,19 @@
   function currentModel(snapshot, tracks, now = Date.now()) {
     if (!snapshot || snapshot.state !== 'live' || !Number.isFinite(snapshot.generatedAt) ||
         now - snapshot.generatedAt > 45000 || snapshot.generatedAt > now + 5000) return null;
-    const id = normalize(snapshot.trackDir), name = normalize(snapshot.track);
+    const pending = !snapshot.trackDir && !snapshot.track && !!snapshot.selectedTrackDir;
+    const id = normalize(snapshot.trackDir || (pending ? snapshot.selectedTrackDir : '')), name = normalize(snapshot.track);
     // Exact folder/name matching keeps the CANVAS MX and SX layouts distinct.
     const track = (id && tracks.find(t => normalize(t.id) === id)) ||
       tracks.find(t => [t.name, t.id, ...(t.serverNames || [])].some(alias => normalize(alias) === name));
-    return {track: track || null, name: track?.name || snapshot.track || snapshot.trackDir || 'Waiting for first race', waiting:!id&&!name, generatedAt: snapshot.generatedAt};
+    const laps = Number.isFinite(snapshot.race?.laps) ? snapshot.race.laps : track?.laps;
+    const interval = track?.trackIntervalMinutes;
+    const settings = (laps ? laps+'-LAP RACES' : 'PER-TRACK RACE SETTINGS') +
+      (interval === 999999999 ? ' · EXTENDED STAY' : Number.isFinite(interval) ? ' · '+interval+'-MINUTE TRACK INTERVAL' : '');
+    const rule = interval === 999999999 ? 'Japan SX uses a 999,999,999-minute interval. Change tracks with a passed vote or an admin command.' :
+      Number.isFinite(interval) ? 'The next track loads at a race restart after the interval. A passed track vote can change it sooner.' :
+      'Original tracks: 2 laps / 10-minute intervals. Japan SX: 7 laps / extended stay.';
+    return {track: track || null, name: track?.name || snapshot.track || snapshot.trackDir || 'Waiting for first race', waiting:!id&&!name, pending, settings, rule, generatedAt: snapshot.generatedAt};
   }
   if (typeof module !== 'undefined' && module.exports) { module.exports = {currentModel}; return; }
   const cards = [...document.querySelectorAll('[data-current-track]')];
@@ -21,8 +29,13 @@
       const link = card.querySelector('[data-current-download]');
       card.querySelector('[data-current-name]').textContent = model?.name || 'Current track unavailable';
       card.querySelector('[data-current-freshness]').textContent = model ?
-        'Live server · updated '+new Date(model.generatedAt).toLocaleTimeString() :
+        (model.pending ? 'Selected for the next race · updated ' : 'Live server · updated ')+new Date(model.generatedAt).toLocaleTimeString() :
         'Waiting for a fresh server update. The track will appear automatically.';
+      card.querySelector('[data-current-settings]').textContent = model?.settings || 'Per-track race settings';
+      card.querySelector('[data-current-rule]').textContent = model?.rule || 'Settings appear with a fresh server update.';
+      const credit = card.querySelector('[data-current-credit]');
+      credit.hidden = !model?.track?.guest;
+      credit.textContent = model?.track?.credit || '';
       // Only bundled images and the supplied official forum URLs are used.
       const track = model?.track;
       const safeImage = track && /^assets\/tracks\/[a-zA-Z0-9_.-]+\.webp$/.test(track.image);
@@ -45,7 +58,7 @@
     }
   }
   document.addEventListener('317mx:status', event => { snapshot = event.detail; render(); });
-  fetch('rotation.json?v=20261031-10min', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
+  fetch('rotation.json?v=20261103-japan', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
     .then(response => { if (!response.ok) throw Error('Rotation unavailable'); return response.json(); })
     .then(data => { tracks = Array.isArray(data.tracks) ? data.tracks : []; render(); })
     .catch(() => { tracks = []; render(); });

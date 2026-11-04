@@ -10,6 +10,8 @@
 .current-track-settings{font-size:15px;color:#d2dc9a;font-weight:700;letter-spacing:.035em;margin:0 0 9px}
 .current-track-rule{font-size:14px;line-height:1.55;color:#d3c6ac;margin:0 0 20px;max-width:48ch}
 .current-track-actions{display:flex;gap:10px;flex-wrap:wrap}
+.current-track-credit{color:#d9bc81;font-size:13px;line-height:1.5;margin:0 0 16px}.current-track-credit[hidden]{display:none}
+.guest-rotation{border-color:#c9b16780}.guest-rotation .rotation-name p{font-size:12px;line-height:1.5;color:#d6c5a1}
 .current-track-actions .button{font-size:12px;padding:12px 16px;max-width:100%;white-space:normal;line-height:1.4;text-align:center}
 @keyframes track-photo-in{from{opacity:0;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
 @media(max-width:700px){.current-track-card{grid-template-columns:minmax(0,1fr);gap:14px;padding:10px;margin:20px 0}.current-track-details{padding:4px 3px 8px}.current-track-visual{border-width:6px}.current-track-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.current-track-actions .button{width:100%;box-sizing:border-box}.current-track-settings{font-size:13px}.current-track-eyebrow{font-size:12px}.current-track-rule{font-size:13px}}

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31",
+  "updated": "2026-11-03",
   "laps": 2,
   "minutes": 0,
   "trackIntervalMinutes": 10,
@@ -13,7 +13,9 @@
       "rotationId": "317DeadlyRanch",
       "serverNames": [
         "317MX: Deadly Ranch Motopark"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "317PotLeafMX",
@@ -24,7 +26,9 @@
       "rotationId": "317PotLeafMX",
       "serverNames": [
         "317MX: Pot Leaf MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "317ZECHEM",
@@ -35,7 +39,9 @@
       "rotationId": "317ZECHEM",
       "serverNames": [
         "317MX: Ze Chem Motopark"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "BGFXWarehouseSX",
@@ -46,7 +52,9 @@
       "rotationId": "BGFXWarehouseSX",
       "serverNames": [
         "BGFX: Warehouse SX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "DaydreamMX",
@@ -57,7 +65,9 @@
       "rotationId": "DaydreamMX",
       "serverNames": [
         "317MX: Daydream MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "DazedWoodsMX",
@@ -68,7 +78,9 @@
       "rotationId": "DazedWoodsMX",
       "serverNames": [
         "317MX: Dazed Woods MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "HiddenAcresMX",
@@ -81,7 +93,9 @@
       "rotationId": "HiddenAcresMX",
       "serverNames": [
         "317MX: Hidden Acres MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "MushroomMX",
@@ -93,7 +107,9 @@
       "rotationId": "MushroomMX",
       "serverNames": [
         "317MX: Mushroom MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "OfficialCNVSCompoundMX",
@@ -106,7 +122,9 @@
       "rotationId": "OfficialCNVSCompoundMX",
       "serverNames": [
         "Official CANVAS Compound - MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "OfficialCNVSCompoundSX",
@@ -119,7 +137,9 @@
       "rotationId": "OfficialCNVSCompoundSX",
       "serverNames": [
         "Official CANVAS Compound - SX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
     },
     {
       "id": "PortalRidgeMX",
@@ -130,7 +150,27 @@
       "rotationId": "PortalRidgeMX",
       "serverNames": [
         "317MX: Portal Ridge MX"
-      ]
+      ],
+      "laps": 2,
+      "trackIntervalMinutes": 10
+    },
+    {
+      "id": "2026japan",
+      "rotationId": "2026japan",
+      "name": "2026 Japan SX",
+      "serverNames": [
+        "2026 CH Japan SX"
+      ],
+      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=61906",
+      "image": "assets/tracks/61906.webp",
+      "sourceImage": "https://i.imgur.com/ugeGiLR.jpeg",
+      "guest": true,
+      "credit": "Guest track · forum post by ktm161 · edit by Carl",
+      "laps": 7,
+      "minutes": 0,
+      "trackIntervalMinutes": 999999999,
+      "includedInPack": false
     }
-  ]
+  ],
+  "featuredTrackId": "2026japan"
 }
