@@ -1,191 +1,185 @@
 {
-  "description": "Image and download metadata only. Current track comes from the live /api/status feed.",
+  "id": "2026-11",
+  "title": "NOVEMBER TRACK ROTATION",
+  "subtitle": "CHANGES MONTHLY",
+  "motosPerTrack": 2,
   "tracks": [
     {
-      "name": "FlowVille",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=59019",
-      "image": "assets/tracks/59019.webp",
-      "sourceImage": "https://i.imgur.com/Hu8eozV.png",
-      "id": "FlowVille"
-    },
-    {
-      "name": "The Fairground",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=60551",
-      "image": "assets/tracks/60551.webp",
-      "sourceImage": "https://i.imgur.com/outgHhm.png",
-      "id": "The Fairground"
-    },
-    {
-      "id": "HiddenAcresMX",
-      "name": "Hidden Acres MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=61401",
-      "image": "assets/tracks/61401.webp",
-      "sourceImage": "https://i.imgur.com/CBFPEDo.png",
+      "id": "decker",
+      "name": "Decker Training Complex",
+      "laps": 3,
+      "erode": 2,
+      "topic": 57732,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=57732",
+      "forumTitle": "Decker Training Complex - MX Simulator",
+      "credit": "Track creator · Palm 189",
+      "guest": true,
+      "serverNames": [
+        "Decker Training Complex"
+      ],
+      "image": "assets/tracks/57732.webp",
       "imageFit": "contain",
-      "imageNote": "The forum post supplies this track logo and a video, rather than a separate screenshot.",
-      "serverNames": [
-        "317MX: Hidden Acres MX"
-      ]
-    },
-    {
-      "name": "Gnarly Mountain Moto Park",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=60164",
-      "image": "assets/tracks/60164.webp",
-      "sourceImage": "https://i.imgur.com/9qpZ3mO.png",
-      "id": "Gnarly Mountain Moto Park"
-    },
-    {
-      "id": "DaydreamMX",
-      "name": "Daydream MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=59500",
-      "image": "assets/tracks/59500.webp",
-      "sourceImage": "https://i.imgur.com/ElkurGa.png",
-      "serverNames": [
-        "317MX: Daydream MX"
-      ]
-    },
-    {
-      "id": "DazedWoodsMX",
-      "name": "Dazed Woods MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=59751",
-      "image": "assets/tracks/59751.webp",
-      "sourceImage": "https://i.imgur.com/wPAc9bZ.png",
-      "serverNames": [
-        "317MX: Dazed Woods MX"
-      ]
-    },
-    {
-      "id": "317ZECHEM",
-      "name": "Ze Chem Motopark",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=58959",
-      "image": "assets/tracks/58959.webp",
-      "sourceImage": "https://i.imgur.com/SVgYVgz.png",
-      "serverNames": [
-        "317MX: Ze Chem Motopark"
-      ]
-    },
-    {
-      "id": "PortalRidgeMX",
-      "name": "Portal Ridge MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=61496",
-      "image": "assets/tracks/61496.webp",
-      "sourceImage": "https://i.imgur.com/69h5Mx5.jpeg",
-      "serverNames": [
-        "317MX: Portal Ridge MX"
-      ]
-    },
-    {
-      "id": "317DeadlyRanch",
-      "name": "Deadly Ranch Motopark",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=59265",
-      "image": "assets/tracks/59265.webp",
-      "sourceImage": "https://i.imgur.com/gRH8Hvn.png",
-      "serverNames": [
-        "317MX: Deadly Ranch Motopark"
-      ]
-    },
-    {
-      "name": "The Moto Nature Reserve",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=59540",
-      "image": "assets/tracks/59540.webp",
-      "sourceImage": "https://i.imgur.com/ALPaxUJ.png",
-      "id": "The Moto Nature Reserve"
-    },
-    {
-      "name": "Just A Random Rough Track",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=61507",
-      "image": "assets/tracks/61507.webp",
-      "sourceImage": "https://i.imgur.com/TT0juJT.png",
-      "id": "Just A Random Rough Track"
-    },
-    {
-      "id": "MushroomMX",
-      "name": "Mushroom MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=60724&p=915591#p915591",
-      "image": "assets/tracks/60724.webp",
-      "sourceImage": "https://i.imgur.com/Vn5RBu8.jpeg",
-      "imagePosition": "50% 14%",
-      "serverNames": [
-        "317MX: Mushroom MX"
-      ]
-    },
-    {
-      "name": "Pot Leaf SX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59492&p=910168#p910168",
-      "image": "assets/tracks/59492.webp",
-      "sourceImage": "https://i.imgur.com/7fHCiJ0.png",
-      "id": "Pot Leaf SX"
-    },
-    {
-      "id": "OfficialCNVSCompoundMX",
-      "name": "Official CANVAS Compound MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59460&p=909967#p909967",
-      "image": "assets/tracks/59460.webp",
-      "sourceImage": "https://i.imgur.com/0L18x8c.png",
-      "recordsQuery": "Compound MX",
-      "downloadNote": "Download includes MX + SX",
-      "serverNames": [
-        "Official CANVAS Compound - MX"
-      ]
-    },
-    {
-      "id": "OfficialCNVSCompoundSX",
-      "name": "Official CANVAS Compound SX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59460&p=909967#p909967",
-      "image": "assets/tracks/59460.webp",
-      "sourceImage": "https://i.imgur.com/0L18x8c.png",
-      "recordsQuery": "Compound SX",
-      "downloadNote": "Download includes MX + SX",
-      "serverNames": [
-        "Official CANVAS Compound - SX"
-      ]
-    },
-    {
-      "name": "Lysergic MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59435&p=909887#p909887",
-      "image": "assets/tracks/59435.webp",
-      "sourceImage": "https://i.imgur.com/MylFvwK.png",
-      "id": "Lysergic MX"
-    },
-    {
-      "id": "317PotLeafMX",
-      "name": "Pot Leaf MX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=59152&p=908269#p908269",
-      "image": "assets/tracks/59152.webp",
-      "sourceImage": "https://i.imgur.com/lOln4OC.png",
-      "serverNames": [
-        "317MX: Pot Leaf MX"
-      ]
-    },
-    {
-      "id": "BGFXWarehouseSX",
-      "name": "BGFX: Warehouse SX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=42777&p=748586#p748586",
-      "image": "assets/tracks/42777.webp",
-      "sourceImage": "https://i.imgur.com/qH9Rh72.png",
-      "serverNames": [
-        "BGFX: Warehouse SX"
-      ]
-    },
-    {
-      "name": "BGFX: Autumn SX",
-      "url": "https://forum.mxsimulator.com/viewtopic.php?f=4&t=42612&p=746228#p746228",
-      "image": "assets/tracks/42612.webp",
-      "sourceImage": "https://i.imgur.com/t6nXL7O.png",
-      "id": "BGFX: Autumn SX"
+      "imageLabel": "In-game track map"
     },
     {
       "id": "DelbSx",
       "name": "Delb SX",
+      "laps": 5,
+      "erode": 8,
+      "topic": 42795,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=42795",
+      "forumTitle": "KaWorkz: DelbSx - MX Simulator",
+      "credit": "Track creator · kylemx322",
+      "image": "assets/tracks/42795.webp",
+      "guest": true,
       "serverNames": [
         "DelbSX"
-      ],
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=42795",
-      "image": "assets/tracks/42795.webp",
-      "sourceImage": "https://i.imgur.com/QERQbNd.png",
+      ]
+    },
+    {
+      "id": "JGMXsuzuki",
+      "name": "JGMX: Not Another Erode Raceway",
+      "laps": 3,
+      "erode": 2,
+      "topic": 49531,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=49531",
+      "forumTitle": "JGMX: Not Another Erode Raceway - MX Simulator",
+      "credit": "Track creator · jgmtbike",
       "guest": true,
-      "credit": "Guest track · KaWorkz / kylemx322 · thanks to Josh (JGMX)",
-      "trackIntervalMinutes": 999999999
+      "serverNames": [
+        "JGMX: Not Another Erode Raceway"
+      ]
+    },
+    {
+      "id": "KitteryMX",
+      "name": "Kittery Lake Motocross",
+      "laps": 3,
+      "erode": 6,
+      "topic": 52902,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=52902",
+      "forumTitle": "[RELEASE] Kittery Lake Compound - MX Simulator",
+      "credit": "Track creator · AtlasZoor",
+      "image": "assets/tracks/52902.webp",
+      "sourceImage": "https://i.imgur.com/nXydcKw.jpg",
+      "guest": true,
+      "serverNames": [
+        "Kittery Lake Motocross"
+      ]
+    },
+    {
+      "id": "Mintop",
+      "name": "Mintop MX",
+      "laps": 3,
+      "erode": 18,
+      "topic": 46694,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=46694",
+      "forumTitle": "[RELEASE] Mintop MX - MX Simulator",
+      "credit": "Track creator · AtlasZoor",
+      "image": "assets/tracks/46694.webp",
+      "sourceImage": "https://i.imgur.com/YFTS7eA.png",
+      "guest": true,
+      "serverNames": [
+        "Mintop MX"
+      ]
+    },
+    {
+      "id": "ParkCanyonSX",
+      "name": "Park Canyon SX",
+      "laps": 5,
+      "erode": 2,
+      "topic": 57590,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=57590",
+      "forumTitle": "Park Canyon Supercross 2022 - MX Simulator",
+      "credit": "Track creator · Racers52",
+      "image": "assets/tracks/57590.webp",
+      "sourceImage": "https://i.imgur.com/yKfbipA.png",
+      "guest": true,
+      "serverNames": [
+        "Park Canyon SX"
+      ]
+    },
+    {
+      "id": "redbuddscreek",
+      "name": "Red Budds Creek",
+      "laps": 3,
+      "erode": 3,
+      "topic": 45324,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=45324",
+      "forumTitle": "MotoagogoLand - Red Budds Creek, SuperAX, Str8 Rhythm - St. Jude Rnd 4 - MX Simulator",
+      "credit": "Track creator · checkerz",
+      "image": "assets/tracks/45324.webp",
+      "sourceImage": "https://i.imgur.com/gQmcOJCr.png",
+      "guest": true,
+      "serverNames": [
+        "2017 St. Jude Rd 4 - Red Budds Creek at MotoagogoLand"
+      ]
+    },
+    {
+      "id": "StJudeR3",
+      "name": "St. Jude R3 - Pomeroy Facility",
+      "laps": 3,
+      "erode": 5,
+      "topic": 52328,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=52328",
+      "forumTitle": "2019 St Jude Race For The Kids Round 3 Pomeroy Facility - MX Simulator",
+      "credit": "Track creator · AtlasZoor",
+      "image": "assets/tracks/52328.webp",
+      "sourceImage": "https://i.imgur.com/mzEwBk5.jpg",
+      "guest": true,
+      "serverNames": [
+        "2019 St.Jude Round 3 - Pomeroy Facility"
+      ]
+    },
+    {
+      "id": "VMXKeesler",
+      "name": "VlastMX: Keesler Invitational",
+      "laps": 3,
+      "erode": 3,
+      "topic": 54229,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=54229",
+      "forumTitle": "VlastMX: Keesler Invitational - MX Simulator",
+      "credit": "Track creator · Jrife548",
+      "guest": true,
+      "serverNames": [
+        "VlastMX: Keesler Invitational"
+      ],
+      "image": "assets/tracks/54229.webp",
+      "imageFit": "contain",
+      "imageLabel": "In-game track map"
+    },
+    {
+      "id": "VMXSquidMX",
+      "name": "VlastMX: Squid Squad Compound MX",
+      "laps": 3,
+      "erode": 3,
+      "topic": 53238,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=53238",
+      "forumTitle": "VlastMX: Squid Squad Compound - MX Simulator",
+      "credit": "Track creator · Jrife548",
+      "guest": true,
+      "serverNames": [
+        "VlastMX: Squid Squad Compound Motocross"
+      ],
+      "image": "assets/tracks/53238.webp",
+      "imageFit": "contain",
+      "imageLabel": "In-game track map"
+    },
+    {
+      "id": "WalmartSX",
+      "name": "Walmart SX",
+      "laps": 5,
+      "erode": 2,
+      "topic": 60692,
+      "url": "https://forum.mxsimulator.com/viewtopic.php?t=60692",
+      "forumTitle": "[RELEASE] Walmart SX - MX Simulator",
+      "credit": "Track creator · AtlasZoor",
+      "guest": true,
+      "serverNames": [
+        "Walmart SX"
+      ],
+      "image": "assets/tracks/60692.webp",
+      "imageFit": "contain",
+      "imageLabel": "In-game track map"
     }
   ]
 }
