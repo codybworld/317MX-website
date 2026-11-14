@@ -2,7 +2,6 @@
   "id": "2026-11",
   "title": "NOVEMBER TRACK ROTATION",
   "subtitle": "CHANGES MONTHLY",
-  "motosPerTrack": 2,
   "tracks": [
     {
       "id": "decker",
@@ -65,7 +64,7 @@
     {
       "id": "Mintop",
       "name": "Mintop MX",
-      "laps": 3,
+      "laps": 4,
       "topic": 46694,
       "url": "https://forum.mxsimulator.com/viewtopic.php?t=46694",
       "forumTitle": "[RELEASE] Mintop MX - MX Simulator",

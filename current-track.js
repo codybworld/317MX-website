@@ -12,13 +12,10 @@
     const rotation = snapshot.rotation?.id === '2026-11' ? snapshot.rotation : null;
     const laps = pending ? track?.laps : Number.isFinite(snapshot.race?.laps) ? snapshot.race.laps : track?.laps;
     const erode = rotation?.erode ?? snapshot.race?.erode;
-    const settings = (rotation?.moto ? 'MOTO '+rotation.moto+'/2 · ' : '') +
-      (laps ? laps+' LAPS' : 'PER-TRACK RACE SETTINGS') +
+    const settings = (laps ? laps+' LAPS' : 'RACE SETTINGS') +
       (Number.isFinite(erode) ? ' · ERODE '+erode.toFixed(1) : '');
-    const next = rotation?.nextTrackDir && tracks.find(item => item.id === rotation.nextTrackDir);
-    const rule = rotation?.paused ? 'Automatic rotation is paused. The server operator is checking the saved progress.' :
-      next ? 'Moto complete. Next race: '+next.name+' · Moto '+rotation.nextMoto+'/2. Riders have up to 60 seconds to finish after the winner.' :
-      'Two completed motos per track. An unfinished restart keeps the same moto. Track and erode votes are enabled. Changes apply on the next race restart; erode carries across tracks.';
+    const rule = rotation?.paused ? 'The server is checking its saved track list.' :
+      'Riders restart races manually. Mintop MX is the default. A passed track vote selects the next race only. Erode carries across races.';
     return {track: track || null, name: track?.name || snapshot.track || snapshot.trackDir || 'Waiting for first race', waiting:!id&&!name, pending, settings, rule, generatedAt: snapshot.generatedAt};
   }
   if (typeof module !== 'undefined' && module.exports) { module.exports = {currentModel}; return; }
@@ -61,7 +58,7 @@
     }
   }
   document.addEventListener('317mx:status', event => { snapshot = event.detail; render(); });
-  fetch('rotation.json?v=20261108-votes', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
+  fetch('rotation.json?v=20261114-manual', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
     .then(response => { if (!response.ok) throw Error('Rotation unavailable'); return response.json(); })
     .then(data => { tracks = Array.isArray(data.tracks) ? data.tracks : []; render(); })
     .catch(() => { tracks = []; render(); });
