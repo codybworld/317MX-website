@@ -48,3 +48,6 @@
 @media(min-width:1001px){.november-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.november-card{grid-column:span 2}.november-card:nth-last-child(2):nth-child(3n+1){grid-column:2/span 2}.november-card:last-child:nth-child(3n+2){grid-column:4/span 2}}
 @media(max-width:1000px){.november-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.november-card h3{font-size:18px}}
 @media(max-width:600px){.november-rotation{padding:48px 16px;scroll-margin-top:85px}.november-grid{grid-template-columns:minmax(0,1fr);gap:20px}.november-heading h2{font-size:30px}.november-heading>p:last-child{font-size:13px}.rotation-warning{padding:14px 12px;font-size:11px;line-height:1.8}.november-rules{font-size:13px;line-height:1.7;margin-bottom:24px}.november-card h3{min-height:0;font-size:20px}.november-card-body{min-height:0;padding:16px}.november-actions{margin-top:4px;justify-content:space-between}.november-actions .button{min-height:44px}.november-settings{font-size:12px}}
+
+/* Track names stand in for missing photography. */
+.current-track-visual [data-current-photo-note]{text-align:center;padding:2rem;font-family:inherit;font-weight:700;font-size:clamp(1.4rem,3vw,2.6rem);color:var(--cream,#efdbb7)}

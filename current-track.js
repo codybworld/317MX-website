@@ -10,7 +10,7 @@
     const track = (id && tracks.find(t => normalize(t.id) === id)) ||
       tracks.find(t => [t.name, t.id, ...(t.serverNames || [])].some(alias => normalize(alias) === name));
     const rotation = snapshot.rotation?.id === '2026-11' ? snapshot.rotation : null;
-    const laps = pending ? track?.laps : Number.isFinite(snapshot.race?.laps) ? snapshot.race.laps : track?.laps;
+    const laps = pending ? snapshot.rotation?.laps ?? snapshot.race?.laps ?? track?.laps : Number.isFinite(snapshot.race?.laps) ? snapshot.race.laps : track?.laps;
     const erode = rotation?.erode ?? snapshot.race?.erode;
     const settings = (laps ? laps+' LAPS' : 'RACE SETTINGS') +
       (Number.isFinite(erode) ? ' · ERODE '+erode.toFixed(1) : '');
@@ -44,7 +44,7 @@
       if (safeLink) link.href = track.url; else link.removeAttribute('href');
       if (!safeImage) {
         image.hidden = true; image.removeAttribute('src'); delete image.dataset.track;
-        note.hidden = false; note.textContent = model?.waiting ? 'The photo appears when a track is loaded.' : model ? 'Track photo unavailable' : 'Waiting for the live track…';
+        note.hidden = false; note.textContent = model?.waiting ? 'The photo appears when a track is loaded.' : model ? model.name : 'Waiting for the live track…';
       } else if (image.dataset.track !== track.id) {
         image.dataset.track = track.id;
         image.alt = track.name+(track.imageLabel ? ' · '+track.imageLabel : ' track');
@@ -52,13 +52,13 @@
         image.style.objectPosition = track.imagePosition || '50% 50%';
         image.hidden = true; note.hidden = false; note.textContent = 'Loading track photo…';
         image.onload = () => { if(image.dataset.track===track.id && currentModel(snapshot,tracks)) { image.hidden = false; note.hidden = true; } };
-        image.onerror = () => { image.hidden = true; note.hidden = false; note.textContent = 'Track photo unavailable'; };
+        image.onerror = () => { image.hidden = true; note.hidden = false; note.textContent = track.name; };
         image.src = track.image;
       }
     }
   }
   document.addEventListener('317mx:status', event => { snapshot = event.detail; render(); });
-  fetch('rotation.json?v=20261114-manual', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
+  fetch('rotation.json?v=20261119-race', {cache:'no-cache', signal:AbortSignal.timeout(8000)})
     .then(response => { if (!response.ok) throw Error('Rotation unavailable'); return response.json(); })
     .then(data => { tracks = Array.isArray(data.tracks) ? data.tracks : []; render(); })
     .catch(() => { tracks = []; render(); });

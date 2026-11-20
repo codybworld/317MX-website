@@ -15,9 +15,13 @@
       "serverNames": [
         "Decker Training Complex"
       ],
-      "image": "assets/tracks/57732.webp",
-      "imageFit": "contain",
-      "imageLabel": "In-game track map"
+      "options": [
+        {
+          "index": 0,
+          "laps": 3,
+          "minutes": 0
+        }
+      ]
     },
     {
       "id": "DelbSx",
@@ -31,6 +35,13 @@
       "guest": true,
       "serverNames": [
         "DelbSX"
+      ],
+      "options": [
+        {
+          "index": 1,
+          "laps": 5,
+          "minutes": 0
+        }
       ]
     },
     {
@@ -44,6 +55,13 @@
       "guest": true,
       "serverNames": [
         "JGMX: Not Another Erode Raceway"
+      ],
+      "options": [
+        {
+          "index": 2,
+          "laps": 3,
+          "minutes": 0
+        }
       ]
     },
     {
@@ -59,6 +77,13 @@
       "guest": true,
       "serverNames": [
         "Kittery Lake Motocross"
+      ],
+      "options": [
+        {
+          "index": 3,
+          "laps": 3,
+          "minutes": 0
+        }
       ]
     },
     {
@@ -74,6 +99,13 @@
       "guest": true,
       "serverNames": [
         "Mintop MX"
+      ],
+      "options": [
+        {
+          "index": 4,
+          "laps": 4,
+          "minutes": 0
+        }
       ]
     },
     {
@@ -88,7 +120,14 @@
       "serverNames": [
         "JMX-Sandtop"
       ],
-      "image": "assets/tracks/58225.webp"
+      "image": "assets/tracks/58225.webp",
+      "options": [
+        {
+          "index": 5,
+          "laps": 5,
+          "minutes": 0
+        }
+      ]
     },
     {
       "id": "redbuddscreek",
@@ -103,6 +142,18 @@
       "guest": true,
       "serverNames": [
         "2017 St. Jude Rd 4 - Red Budds Creek at MotoagogoLand"
+      ],
+      "options": [
+        {
+          "index": 6,
+          "laps": 3,
+          "minutes": 0
+        },
+        {
+          "index": 11,
+          "laps": 6,
+          "minutes": 0
+        }
       ]
     },
     {
@@ -118,23 +169,14 @@
       "guest": true,
       "serverNames": [
         "2019 St.Jude Round 3 - Pomeroy Facility"
-      ]
-    },
-    {
-      "id": "VMXKeesler",
-      "name": "VlastMX: Keesler Invitational",
-      "laps": 3,
-      "topic": 54229,
-      "url": "https://forum.mxsimulator.com/viewtopic.php?t=54229",
-      "forumTitle": "VlastMX: Keesler Invitational - MX Simulator",
-      "credit": "Track creator · Jrife548",
-      "guest": true,
-      "serverNames": [
-        "VlastMX: Keesler Invitational"
       ],
-      "image": "assets/tracks/54229.webp",
-      "imageFit": "contain",
-      "imageLabel": "In-game track map"
+      "options": [
+        {
+          "index": 7,
+          "laps": 3,
+          "minutes": 0
+        }
+      ]
     },
     {
       "id": "VMXSquidMX",
@@ -148,9 +190,13 @@
       "serverNames": [
         "VlastMX: Squid Squad Compound Motocross"
       ],
-      "image": "assets/tracks/53238.webp",
-      "imageFit": "contain",
-      "imageLabel": "In-game track map"
+      "options": [
+        {
+          "index": 8,
+          "laps": 3,
+          "minutes": 0
+        }
+      ]
     },
     {
       "id": "WalmartSX",
@@ -164,9 +210,18 @@
       "serverNames": [
         "Walmart SX"
       ],
-      "image": "assets/tracks/60692.webp",
-      "imageFit": "contain",
-      "imageLabel": "In-game track map"
+      "options": [
+        {
+          "index": 9,
+          "laps": 5,
+          "minutes": 0
+        },
+        {
+          "index": 10,
+          "laps": 10,
+          "minutes": 0
+        }
+      ]
     }
   ]
 }
