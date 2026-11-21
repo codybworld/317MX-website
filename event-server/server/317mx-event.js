@@ -5,6 +5,7 @@
     var oldSecond = mxserver.second_handler, oldCommand = mxserver.command_handler;
     var oldInfo = mxserver.info_handler, oldReady = mxserver.ready_handler;
     var count = 0, serial = 0, raceSerial = 0, ack = 0, inflight = 0, sentNotices = {}, countdownSent = {};
+    var lastEventId = null, nativeError = null;
     var requests = [], control = {}, race = null, riders = {}, qualifying = {}, ready = {}, uidGrab = null;
     function read(path) { try { return JSON.parse(mxserver.file_to_string(base + path)); } catch (e) { return null; } }
     function write(path, value) { mxserver.string_to_file(base + path, JSON.stringify(value)); }
@@ -15,14 +16,21 @@
     if (previousAck && typeof previousAck.id === 'number') ack = previousAck.id;
     control = read('control.json') || {};
     mxserver._317mx_event_active = control.active === true;
+    mxserver._317mx_event_pin = control.pinTrack || null;
+    lastEventId = control.eventId; mxserver._317mx_event_meta = control;
     var notices = control.notices || [];
     for (var ni = 0; ni < notices.length; ni++) sentNotices[notices[ni].id] = true;
 
     function poll() {
         var next = read('control.json');
         if (!next) return;
+        var previousPin = mxserver._317mx_event_pin;
         control = next;
+        mxserver._317mx_event_meta = control;
         mxserver._317mx_event_active = control.active === true;
+        mxserver._317mx_event_pin = control.pinTrack || null;
+        if (previousPin !== mxserver._317mx_event_pin && typeof mxserver._317mx_pin_changed === 'function') mxserver._317mx_pin_changed();
+        if (lastEventId !== control.eventId) { qualifying = {}; uidGrab = null; lastEventId = control.eventId; }
         var now = new Date().getTime() / 1000;
         if (!(control.generatedAt > now - 15)) return;
         if (control.countdownAt > now) {
@@ -31,7 +39,7 @@
             if ([300,120,60,30,10,9,8,7,6,5,4,3,2,1].indexOf(remaining) >= 0 && !countdownSent[countdownKey]) {
                 countdownSent[countdownKey] = true;
                 var unit = remaining >= 120 ? (remaining / 60) + ' MINUTES' : remaining === 60 ? '1 MINUTE' : remaining + ' SECONDS';
-                mxserver.broadcast('\x1b[32m[ 317MX EVENT ]\x1b[33m ' + control.countdownLabel + ' IN ' + unit + '\x1b[0m');
+                mxserver.broadcast('\x1b[0m[ * 317MX * ] ' + (remaining <= 10 ? '\x1b[33m' : '') + control.countdownLabel + ' IN ' + unit + '\x1b[0m');
             }
         }
         var action = control.action;
@@ -41,8 +49,11 @@
             for (var i = 0; i < action.commands.length; i++) {
                 var line = action.commands[i];
                 if (typeof line !== 'string' || /[\r\n]/.test(line) ||
-                        !/^(addtrack|removetrack|settrack|maxplayers|lock|unlock|lockgate|unlockgate|forcespec|forceplay|forcegate|broadcast|restart)( |$)/.test(line)) {
+                        !/^(addtrack|removetrack|settrack|maxplayers|lock|unlock|lockgate|unlockgate|forcespec|forceplay|forcegate|broadcast|restart|erode)( |$)/.test(line)) {
                     mxserver.log('317MX event action rejected: invalid command.\n'); return;
+                }
+                if (/^erode /.test(line) && typeof mxserver._317mx_set_global_erode === 'function' && !mxserver._317mx_set_global_erode(Number(line.substring(6)))) {
+                    nativeError = 'Erode could not be saved. Check game storage.'; ack = action.id; write('ack.json', {id:ack,error:nativeError}); return;
                 }
                 commands += line + '\n';
             }
@@ -57,7 +68,7 @@
             if (sentNotices[notice.id]) continue;
             for (var slot = 0; slot < mxserver.max_slots; slot++) {
                 if (mxserver.get_uid(slot) === owner && /^(Player|Spectator)$/.test(mxserver.get_status(slot))) {
-                    mxserver.send(slot, '\x1b[33m[ EVENT OWNER ] ' + notice.text + '\x1b[0m');
+                    mxserver.send(slot, '\x1b[0m[ OWNER ] ' + notice.text + '\x1b[0m');
                     sentNotices[notice.id] = true;
                 }
             }
@@ -82,22 +93,25 @@
         if (value.length > 160 || /[^a-z0-9 ._-]/.test(value)) {
             mxserver.send(slot, 'Use server,event help.'); return 1;
         }
-        requests.push({id: boot + '-' + (++serial), uid: owner, command: value});
+        requests.push({id: boot + '-' + (++serial), uid: owner, eventId: control.eventId, command: value});
         requests = requests.slice(-100);
         write('requests.json', requests);
-        mxserver.send(slot, '\x1b[33m[ EVENT OWNER ] Queued: ' + value + '\x1b[0m');
+        mxserver.send(slot, '\x1b[0m[ OWNER ] Queued: ' + value + '\x1b[0m');
         return 1;
     };
     mxserver.info_handler = function (slot, message) {
         var match = /^server,\s*(.*)$/i.exec(message);
+        if (match && mxserver._317mx_event_pin && /^(settrack|nexttrack|callvote\s+settrack)\b/i.test(match[1])) {
+            mxserver.send(slot, '\x1b[0m[ 317MX ] Qualifying track pinned. Owner: server,event pin off.'); return 1;
+        }
         if (match && mxserver._317mx_event_active) {
             var command = match[1];
             if (/^(?:callvote|vote|nexttrack|settrack|addtrack|removetrack|exec|at|clearschedule|forcespec|forceplay|forcegate|lockgate|unlockgate|lock|unlock|maxplayers|maxclients)\b/i.test(command)) {
-                mxserver.send(slot, '\x1b[33mEvent controls own the lineup and track. Owner: server,event help.\x1b[0m');
+                mxserver.send(slot, '\x1b[0mEvent controls own the lineup and track. Owner: server,event help.\x1b[0m');
                 return 1;
             }
             if (/^(restart|norestart)\s*$/i.test(command) && mxserver.get_uid(slot) !== owner) {
-                mxserver.send(slot, '\x1b[33mEvent races restart automatically. Owner can pause or rerun the moto.\x1b[0m');
+                mxserver.send(slot, '\x1b[0mEvent races restart automatically. Owner can pause or rerun the moto.\x1b[0m');
                 return 1;
             }
         }
@@ -118,8 +132,7 @@
         if (mxserver._317mx_event_active && (control.roster || []).indexOf(uid) >= 0)
             mxserver.schedule_command('at +0 forceplay ' + uid);
         if (mxserver._317mx_event_active) mxserver.send(slot,
-            '\x1b[32m[ TEST FUN RACE ]\x1b[33m ' + control.phase +
-            ' | Mintop MX | 2 motos: 15 minutes + 1 lap | event info: 317mx.duckdns.org/events.html\x1b[0m');
+            '\x1b[0m[ * '+text(control.title)+' * ] '+control.phase+' | '+text(control.trackName)+' | 2 motos: 15 minutes + 1 lap');
     };
     mxserver.timing_handler = function (slot, index, ticks) {
         if (typeof oldTiming === 'function') oldTiming.apply(this, arguments);
@@ -133,18 +146,19 @@
         }
         p.times[index] = ticks;
         race.starttime = mxserver.get_number('drop_time');
-        // Qualifying uses flying laps only, never the opening lap from the start gate.
-        if (control.phase !== 'qualifying' || race.track !== 'Mintop' ||
-                !(race.firstlap > 0 && race.normallap > 0) || index < race.firstlap + race.normallap - 1 ||
-                (index - race.firstlap + 1) % race.normallap !== 0) return;
-        var start = index - race.normallap, clean = typeof p.times[start] === 'number', previous = p.times[start];
-        for (var i = start + 1; i <= index && clean; i++) {
-            if (!(p.times[i] >= previous)) clean = false;
-            previous = p.times[i];
+        // Recheck completed flying laps when a late timing packet fills a gap.
+        if (control.phase !== 'qualifying' || race.track !== control.trackDir ||
+                !(race.firstlap > 0 && race.normallap > 0) || new Date().getTime() / 1000 > control.deadline) return;
+        for (var finish = race.firstlap + race.normallap - 1; finish < p.times.length; finish += race.normallap) {
+            var start = finish - race.normallap, clean = typeof p.times[start] === 'number', previous = p.times[start];
+            for (var i = start + 1; i <= finish && clean; i++) {
+                if (!(p.times[i] >= previous)) clean = false;
+                previous = p.times[i];
+            }
+            var lap = p.times[finish] - p.times[start];
+            if (clean && lap > 0 && (!qualifying[uid] || lap < qualifying[uid].ticks))
+                qualifying[uid] = {uid: uid, ticks: lap, at: new Date().getTime() / 1000};
         }
-        var lap = ticks - p.times[start];
-        if (clean && lap > 0 && new Date().getTime() / 1000 <= control.deadline && (!qualifying[uid] || lap < qualifying[uid].ticks))
-            qualifying[uid] = {uid: uid, ticks: lap, at: new Date().getTime() / 1000};
     };
     function snapshot() {
         var people = [], catalog = [], i, status, info;
@@ -191,7 +205,7 @@
         var quals = [];
         for (var uid in qualifying) quals.push(qualifying[uid]);
         write('game.json', {schema: 1, generatedAt: new Date().getTime(), boot: boot, ack: ack,
-            people: people, uidGrab: uidGrab, catalog: catalog, qualifying: quals, race: current, maxSlots: mxserver.max_slots});
+            erode: mxserver.get_string('track_dir') ? mxserver.get_number('erode') / 1024 : (typeof mxserver._317mx_rotation_status === 'function' ? mxserver._317mx_rotation_status().erode : null), nativeError:nativeError, people: people, uidGrab: uidGrab, catalog: catalog, qualifying: quals, race: current, maxSlots: mxserver.max_slots});
     }
     mxserver.second_handler = function () {
         if (typeof oldSecond === 'function') oldSecond.apply(this, arguments);

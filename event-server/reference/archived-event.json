@@ -1,0 +1,348 @@
+{
+  "event": {
+    "event": {
+      "id": "example-finished-race",
+      "title": "Example Finished Race",
+      "track": "Mintop MX",
+      "trackDir": "Mintop",
+      "startsAt": "2026-11-21T04:30:00Z",
+      "image": "assets/tracks/46694.webp",
+      "download": "https://forum.mxsimulator.com/viewtopic.php?t=46694"
+    },
+    "phase": "complete",
+    "entriesOpen": false,
+    "entries": [
+      {
+        "uid": 1000,
+        "name": "Example Rider 1",
+        "number": "1",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1001,
+        "name": "Example Rider 2",
+        "number": "2",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1002,
+        "name": "Example Rider 3",
+        "number": "3",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1003,
+        "name": "Example Rider 4",
+        "number": "4",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1004,
+        "name": "Example Rider 5",
+        "number": "5",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1005,
+        "name": "Example Rider 6",
+        "number": "6",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1006,
+        "name": "Example Rider 7",
+        "number": "7",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      },
+      {
+        "uid": 1007,
+        "name": "Example Rider 8",
+        "number": "8",
+        "bestTicks": 9000,
+        "bestLapSeconds": 70.3125,
+        "present": false,
+        "qualified": true
+      }
+    ],
+    "roster": [
+      {
+        "uid": 1000,
+        "name": "Example Rider 1",
+        "number": "1"
+      },
+      {
+        "uid": 1001,
+        "name": "Example Rider 2",
+        "number": "2"
+      },
+      {
+        "uid": 1002,
+        "name": "Example Rider 3",
+        "number": "3"
+      },
+      {
+        "uid": 1003,
+        "name": "Example Rider 4",
+        "number": "4"
+      },
+      {
+        "uid": 1004,
+        "name": "Example Rider 5",
+        "number": "5"
+      },
+      {
+        "uid": 1005,
+        "name": "Example Rider 6",
+        "number": "6"
+      },
+      {
+        "uid": 1006,
+        "name": "Example Rider 7",
+        "number": "7"
+      },
+      {
+        "uid": 1007,
+        "name": "Example Rider 8",
+        "number": "8"
+      }
+    ],
+    "motos": {
+      "1": [
+        {
+          "uid": 1000,
+          "name": "Example Rider 1",
+          "position": 1,
+          "status": "FIN"
+        },
+        {
+          "uid": 1001,
+          "name": "Example Rider 2",
+          "position": 2,
+          "status": "FIN"
+        },
+        {
+          "uid": 1002,
+          "name": "Example Rider 3",
+          "position": 3,
+          "status": "FIN"
+        },
+        {
+          "uid": 1003,
+          "name": "Example Rider 4",
+          "position": 4,
+          "status": "FIN"
+        },
+        {
+          "uid": 1004,
+          "name": "Example Rider 5",
+          "position": 5,
+          "status": "FIN"
+        },
+        {
+          "uid": 1005,
+          "name": "Example Rider 6",
+          "position": 6,
+          "status": "FIN"
+        },
+        {
+          "uid": 1006,
+          "name": "Example Rider 7",
+          "position": 7,
+          "status": "FIN"
+        },
+        {
+          "uid": 1007,
+          "name": "Example Rider 8",
+          "position": 8,
+          "status": "FIN"
+        }
+      ],
+      "2": [
+        {
+          "uid": 1007,
+          "name": "Example Rider 8",
+          "position": 1,
+          "status": "FIN"
+        },
+        {
+          "uid": 1006,
+          "name": "Example Rider 7",
+          "position": 2,
+          "status": "FIN"
+        },
+        {
+          "uid": 1005,
+          "name": "Example Rider 6",
+          "position": 3,
+          "status": "FIN"
+        },
+        {
+          "uid": 1004,
+          "name": "Example Rider 5",
+          "position": 4,
+          "status": "FIN"
+        },
+        {
+          "uid": 1003,
+          "name": "Example Rider 4",
+          "position": 5,
+          "status": "FIN"
+        },
+        {
+          "uid": 1002,
+          "name": "Example Rider 3",
+          "position": 6,
+          "status": "FIN"
+        },
+        {
+          "uid": 1001,
+          "name": "Example Rider 2",
+          "position": 7,
+          "status": "FIN"
+        },
+        {
+          "uid": 1000,
+          "name": "Example Rider 1",
+          "position": 8,
+          "status": "FIN"
+        }
+      ]
+    },
+    "overall": [
+      {
+        "uid": 1007,
+        "name": "Example Rider 8",
+        "number": "8",
+        "moto1": 8,
+        "moto2": 1,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 1
+      },
+      {
+        "uid": 1006,
+        "name": "Example Rider 7",
+        "number": "7",
+        "moto1": 7,
+        "moto2": 2,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 2
+      },
+      {
+        "uid": 1005,
+        "name": "Example Rider 6",
+        "number": "6",
+        "moto1": 6,
+        "moto2": 3,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 3
+      },
+      {
+        "uid": 1004,
+        "name": "Example Rider 5",
+        "number": "5",
+        "moto1": 5,
+        "moto2": 4,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 4
+      },
+      {
+        "uid": 1003,
+        "name": "Example Rider 4",
+        "number": "4",
+        "moto1": 4,
+        "moto2": 5,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 5
+      },
+      {
+        "uid": 1002,
+        "name": "Example Rider 3",
+        "number": "3",
+        "moto1": 3,
+        "moto2": 6,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 6
+      },
+      {
+        "uid": 1001,
+        "name": "Example Rider 2",
+        "number": "2",
+        "moto1": 2,
+        "moto2": 7,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 7
+      },
+      {
+        "uid": 1000,
+        "name": "Example Rider 1",
+        "number": "1",
+        "moto1": 1,
+        "moto2": 8,
+        "statuses": [
+          "FIN",
+          "FIN"
+        ],
+        "total": 9,
+        "position": 8
+      }
+    ],
+    "overallFinal": true,
+    "armed": false,
+    "automatic": true,
+    "run": null,
+    "nextKind": null,
+    "nextAt": null,
+    "error": null,
+    "live": false,
+    "updatedAt": 1795244400
+  }
+}

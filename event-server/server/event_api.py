@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""317MX event entries and director. Public API has no administration endpoint."""
+"""317MX event entries, archives and UID-paired owner race controls."""
 import copy
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -11,6 +11,8 @@ import sqlite3
 import threading
 import time
 from urllib.parse import urlsplit
+from event_features import EventFeatures
+from owner_http import owner_get, owner_post
 
 ORIGINS = {'https://317mx.duckdns.org', 'https://codybworld.github.io'}
 
@@ -58,7 +60,7 @@ def overall(roster, motos):
     return rows
 
 
-class Director:
+class Director(EventFeatures):
     def __init__(self, folder, config, clock=time.time):
         self.folder, self.config, self.clock = Path(folder), config, clock
         self.folder.mkdir(parents=True, exist_ok=True)
@@ -78,6 +80,7 @@ class Director:
         self.game = None
         self.rates = {}
         self.deadline = datetime.fromisoformat(config['startsAt'].replace('Z', '+00:00')).timestamp()
+        self.init_features()
         self.save()
 
     def save(self):
@@ -93,6 +96,8 @@ class Director:
         atomic_json(self.folder / 'control.json', dict(
             active=self.state['phase'] not in ('qualifying', 'complete', 'cancelled'),
             phase=self.state['phase'], action=queued[0] if queued else None,
+            eventId=self.config['id'],trackDir=self.config['trackDir'],title=self.config['title'],
+            trackName=self.config['track'],pinTrack=self.config['trackDir'] if self.state['pin'] else None,
             roster=[p['uid'] for p in self.state['roster']],
             generatedAt=self.clock(), deadline=self.deadline if hasattr(self,'deadline') else None,
             countdownAt=self.deadline if self.state['phase']=='qualifying' and self.state['armed'] else
@@ -105,8 +110,9 @@ class Director:
         self.state['queue'].append(dict(id=self.state['actionSeq'], commands=lines))
 
     def say(self, message):
-        self.action(['broadcast \x1b[32m[ 317MX EVENT ]\x1b[33m ' +
-                     message.replace('\n', ' ').replace('\r', ' ') + '\x1b[0m'])
+        self.action(['broadcast \x1b[0m+------------------------------------------------------------+',
+            'broadcast \x1b[0m| * 317MX EVENT * | '+message.replace('\n',' ').replace('\r',' '),
+            'broadcast \x1b[0m+------------------------------------------------------------+'])
 
     def reply(self, message):
         self.state['notices'].append(dict(id=str(self.clock()) + '-' + str(len(self.state['notices'])),
@@ -120,7 +126,7 @@ class Director:
     def signup(self, value, ip):
         with self.lock:
             if self.state['phase'] != 'qualifying' or self.clock() >= self.deadline:
-                raise ValueError('Entries are closed. Ask Cody B to add you manually.')
+                raise ValueError('Signups closed. This event has reached its scheduled start time.')
             if not isinstance(value, dict) or isinstance(value.get('uid'), bool):
                 raise ValueError('Enter your name, race number and numeric UID.')
             uid = str(value.get('uid', ''))
@@ -146,7 +152,7 @@ class Director:
             self.rates[ip] = recent + [now]
             self.db.execute('INSERT INTO entries VALUES(?,?,?,?)', (uid, name, number, now))
             self.db.commit()
-            return dict(ok=True, message='Signed up! Join the server and set a clean Mintop lap before UID grab.')
+            return dict(ok=True, message='Signed up! Join the server and set a clean '+self.config['track']+' lap before UID grab.')
 
     def fresh(self):
         return bool(self.game and -5 <= self.clock() - self.game.get('generatedAt', 0)/1000 < 12)
@@ -204,6 +210,7 @@ class Director:
         return (self.game or {}).get('catalog', [])
 
     def begin(self, kind):
+        if self.state['phase']=='starting':raise ValueError('A session start is already pending. Wait for the game acknowledgement.')
         if not self.fresh():
             raise ValueError('A fresh game connection is required before starting a session.')
         if self.state['phase'] == 'qualifying':
@@ -214,13 +221,13 @@ class Director:
             raise ValueError('Unknown session.')
         minutes = 0 if kind == 'warmup' else 15
         catalog = self.native_catalog()
-        mintop = next((p for p in catalog if p['dir']=='Mintop'), None)
+        mintop = next((p for p in catalog if p['dir']==self.config['trackDir']), None)
         if not mintop:
-            raise ValueError('Mintop trackinfo is missing from the server.')
+            raise ValueError(self.config['track']+' trackinfo is missing from the server.')
         if kind in ('moto1','moto2'):
             self.state['motos'].pop(kind[-1],None)
             if kind=='moto1': self.state['motos'].pop('2',None)
-        index = next((i for i,p in enumerate(catalog) if p['dir']=='Mintop' and p['minutes']==minutes and p['laps']==1), None)
+        index = next((i for i,p in enumerate(catalog) if p['dir']==self.config['trackDir'] and p['minutes']==minutes and p['laps']==1), None)
         lines = []
         if index is None:
             index = len(catalog)
@@ -229,7 +236,7 @@ class Director:
         for gate,p in enumerate(self.state['roster']):
             lines += ['forceplay '+str(p['uid']), 'forcegate %d %d' % (p['uid'],gate)]
         title = 'LINEUP CHECK / WARMUP' if kind=='warmup' else 'MOTO '+kind[-1]+' - 15 MINUTES + 1 LAP'
-        lines += ['lockgate', 'settrack '+str(index), 'broadcast \x1b[32m[ 317MX EVENT ]\x1b[33m '+title+' ON THIS RESTART\x1b[0m', 'restart']
+        lines += ['lockgate', 'settrack '+str(index), 'broadcast \x1b[0m[ * 317MX EVENT * ] '+title+' ON THIS RESTART\x1b[0m', 'restart']
         self.state['phase'] = 'starting'
         self.state['error'] = None
         self.state['run'] = dict(kind=kind, minutes=minutes, laps=1, requestedAt=self.clock(),
@@ -277,14 +284,14 @@ class Director:
             self.release('complete')
 
     def release(self, phase):
-        # Remove only this controller's temporary Mintop formats, highest index first.
+        # Remove only this controller's temporary event formats, highest index first.
         lines=['unlockgate','unlock']
         for index,p in reversed(list(enumerate(self.native_catalog()))):
-            if p['dir']=='Mintop' and p['laps']==1 and p['minutes'] in (0,15) and p.get('eventTrack'):
+            if p['dir']==self.config['trackDir'] and p['laps']==1 and p['minutes'] in (0,15) and p.get('eventTrack'):
                 lines.append('removetrack '+str(index))
         base=[p for p in self.native_catalog() if not p.get('eventTrack')]
-        default=next((i for i,p in enumerate(base) if p['dir']=='Mintop' and p['laps']==4),0)
-        lines += ['settrack '+str(default), 'broadcast \x1b[32m[ 317MX EVENT ]\x1b[33m Event '+phase+'. Results: 317mx.duckdns.org/events.html\x1b[0m']
+        default=next((i for i,p in enumerate(base) if p['dir']==self.config['trackDir'] and p['minutes']==0),0)
+        lines += ['settrack '+str(default), 'broadcast \x1b[0m[ 317MX EVENT ]\x1b[0m Event '+phase+'. Results: 317mx.duckdns.org/events.html\x1b[0m']
         self.action(lines)
         self.state['phase']='releasing'
         self.state['releaseTo']=phase
@@ -296,10 +303,24 @@ class Director:
         if not words or words[0] in ('help','status'):
             self.reply('Event '+self.state['phase']+' | '+str(len(self.state['roster']))+' riders | auto '+str(self.state['automatic']))
             if not words or words[0]=='help':
-                self.reply('server,event grab | warmup | moto 1/2 | next | pause | resume | auto on/off | add UID | remove UID | finish | rerun | result MOTO UID POS | end | arm | disarm')
+                self.reply('server,event dashboard | status | grab | warmup | moto 1/2 | next')
+                self.reply('pause | resume | auto on/off | add UID | remove UID | finish | rerun')
+                self.reply('result MOTO UID POS | end | arm | disarm | pin on/off | restart')
             return
         verb=words[0]
-        if verb in ('arm','disarm') and len(words)==1:
+        if verb=='dashboard' and len(words)==1:
+            code=self.auth.issue()
+            self.reply('Dashboard: 317mx.duckdns.org/race-control.html')
+            self.reply('Private dashboard code: '+code+' (expires in 5 minutes)')
+            return
+        elif verb=='dashboard' and words[1:]==['logout']:
+            self.auth.revoke();self.reply('All dashboard sessions revoked.');return
+        elif verb=='pin' and len(words)==2 and words[1] in ('on','off'):
+            if self.state['phase'] not in ('qualifying','complete','cancelled'):raise ValueError('End event control before changing the qualifying pin')
+            self.state['pin']=words[1]=='on'
+        elif verb=='restart' and len(words)==1:
+            self.action(['restart'])
+        elif verb in ('arm','disarm') and len(words)==1:
             if self.state['phase']!='qualifying': raise ValueError('UID grab already complete.')
             if verb=='arm' and self.clock()>=self.deadline: raise ValueError('Start time passed; use event grab.')
             self.state['armed']=verb=='arm'
@@ -398,6 +419,7 @@ class Director:
             try:
                 requests=read_json(self.folder/'requests.json',131072)
                 for request in requests[-100:]:
+                    if request.get('eventId') not in (None,self.config['id']): continue
                     if request.get('uid')!=self.config['ownerUid'] or not isinstance(request.get('command'),str): continue
                     rid=str(request.get('id',''))[:100]
                     if not rid or self.db.execute('SELECT 1 FROM requests WHERE id=?',(rid,)).fetchone(): continue
@@ -418,7 +440,7 @@ class Director:
             race=(self.game or {}).get('race')
             run=self.state.get('run')
             if self.state['phase']=='starting' and run and self.fresh():
-                if race and race.get('key')!=run['previousKey'] and race.get('track')=='Mintop' and race.get('minutes')==run['minutes'] and race.get('laps')==1:
+                if race and race.get('key')!=run['previousKey'] and race.get('track')==self.config['trackDir'] and race.get('minutes')==run['minutes'] and race.get('laps')==1:
                     run['raceKey']=race['key']; run['startedAt']=now
                     self.state['phase']=run['kind']
                 elif now-run['requestedAt']>180:
@@ -461,9 +483,10 @@ class Handler(BaseHTTPRequestHandler):
     def setup(self):
         super().setup(); self.connection.settimeout(5)
 
-    def send_json(self, status, value):
+    def send_json(self, status, value, extra=None):
         data=json.dumps(value,ensure_ascii=True,allow_nan=False).encode()
         self.send_response(status)
+        for key,val in (extra or {}).items(): self.send_header(key,val)
         self.send_header('Content-Type','application/json; charset=utf-8')
         self.send_header('Content-Length',str(len(data)))
         self.send_header('Cache-Control','no-store')
@@ -475,9 +498,14 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers(); self.wfile.write(data)
 
     def do_GET(self):
-        if urlsplit(self.path).path not in ('/api/events','/api/events/'+DIRECTOR.config['id']):
-            return self.send_json(404,dict(error='Not found'))
-        self.send_json(200,DIRECTOR.view())
+        path=urlsplit(self.path).path
+        if len(self.path)>250:return self.send_json(404,dict(error='Not found'))
+        if path.startswith('/api/events/owner'):return owner_get(self,DIRECTOR)
+        if path=='/api/events':return self.send_json(200,DIRECTOR.index())
+        match=re.fullmatch(r'/api/events/([a-zA-Z0-9-]{1,80})',path)
+        with DIRECTOR.lock:
+            event=DIRECTOR.public_event(match[1]) if match else None
+        self.send_json(200 if event else 404,event or dict(error='Not found'))
 
     def do_OPTIONS(self):
         if self.headers.get('Origin') not in ORIGINS:
@@ -490,7 +518,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length','0'); self.end_headers()
 
     def do_POST(self):
+        if urlsplit(self.path).path.startswith('/api/events/owner'):return owner_post(self,DIRECTOR)
         if urlsplit(self.path).path!='/api/events/'+DIRECTOR.config['id']+'/signup':
+            if re.fullmatch(r'/api/events/[a-zA-Z0-9-]+/signup',urlsplit(self.path).path):
+                return self.send_json(400,dict(error='Signups closed for this event.'))
             return self.send_json(404,dict(error='Not found'))
         if self.headers.get('Origin') not in ORIGINS and self.headers.get('Origin'):
             return self.send_json(403,dict(error='Origin not allowed'))

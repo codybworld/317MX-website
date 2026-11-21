@@ -1,6 +1,6 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const root=__dirname;
-let now=1795226400000,control={phase:'qualifying',active:false,generatedAt:now/1000,deadline:now/1000+3600,notices:[],roster:[]};
+let now=1795226400000,control={eventId:'test',trackDir:'Mintop',pinTrack:null,phase:'qualifying',active:false,generatedAt:now/1000,deadline:now/1000+3600,notices:[],roster:[]};
 const files={},commands=[],messages=[];let uid=15155,rank='Admin',status='Player';
 const native={first_lap_length:3,normal_lap_length:2,finish_time:0,finish_laps:4,drop_time:128,track_count:1};
 const api={max_slots:128,get_uid:slot=>slot===0?uid:0,get_rank:()=>rank,get_status:slot=>slot===0?status:'Empty',get_slot_info:()=>({name:'Cody',number:317}),get_string:(k)=>k==='track_dir'?'Mintop':k==='track_list'?'/trackinfo/Mintop.trackinfo':'',get_number:k=>native[k]||0,
@@ -16,6 +16,11 @@ api.second_handler();let game=JSON.parse(files['/var/lib/317mx-events/game.json'
 assert.equal(game.qualifying[0].ticks,256);assert.equal(game.people[0].uid,15155);
 api.start_handler();api.timing_handler(0,2,384);api.timing_handler(0,4,640);api.second_handler();
 game=JSON.parse(files['/var/lib/317mx-events/game.json']);assert.equal(game.qualifying[0].ticks,256);
+// A finish packet arrives before the middle gate; the late packet must qualify once complete.
+uid=777;api.start_handler();api.timing_handler(0,2,800);api.timing_handler(0,4,1000);api.second_handler();
+assert(!JSON.parse(files['/var/lib/317mx-events/game.json']).qualifying.some(p=>p.uid===777));
+api.timing_handler(0,3,900);api.second_handler();
+assert.equal(JSON.parse(files['/var/lib/317mx-events/game.json']).qualifying.find(p=>p.uid===777).ticks,200);
 uid=55;api.command_handler(0,'event end');assert(!files['/var/lib/317mx-events/requests.json']);
 uid=15155;api.command_handler(0,'event status');assert.equal(JSON.parse(files['/var/lib/317mx-events/requests.json'])[0].uid,15155);
 control.active=true;control.phase='moto1';api.second_handler();uid=55;

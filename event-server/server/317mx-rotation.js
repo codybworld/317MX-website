@@ -3,7 +3,7 @@
  */
 (function () {
     var config = mx317RotationConfig;
-    try { mxserver._317mx_event_active = JSON.parse(mxserver.file_to_string('/var/lib/317mx-events/control.json')).active === true; } catch (eventError) {}
+    try { var eventControl = JSON.parse(mxserver.file_to_string('/var/lib/317mx-events/control.json')); mxserver._317mx_event_active = eventControl.active === true; mxserver._317mx_event_pin = eventControl.pinTrack || null; } catch (eventError) {}
     var prefix = '/var/lib/317mx-export/november-rotation';
     var oldStart = mxserver.start_handler, oldCommand = mxserver.command_handler;
     var oldSecond = mxserver.second_handler, oldInfo = mxserver.info_handler;
@@ -121,6 +121,10 @@
         return true;
     }
     function defaultIndex() {
+        if (mxserver._317mx_event_pin) {
+            for (var pinIndex = 0; pinIndex < tracks.length; pinIndex++)
+                if (tracks[pinIndex].id === mxserver._317mx_event_pin && tracks[pinIndex].minutes === 0) return pinIndex;
+        }
         for (var i = 0; i < tracks.length; i++) {
             if (tracks[i].id === config.defaultTrack && tracks[i].laps === 4 && tracks[i].minutes === 0) return i;
         }
@@ -138,6 +142,7 @@
     }
     function selectNext() {
         if (mxserver._317mx_event_active) return true;
+        if (mxserver._317mx_event_pin) state.index = defaultIndex();
         var version = selectionVersion + 1;
         var commands = '#mxserverscript\nerode ' + globalErode + '\nsettrack ' + state.index +
             '\n317mx_selection_applied ' + version + '\n';
@@ -224,7 +229,7 @@
             id: config.id, title: config.title,
             laps: loaded ? mxserver.get_number('finish_laps') : tracks[state.index].laps,
             erode: loaded ? mxserver.get_number('erode') / 1024 : globalErode,
-            locked: false, paused: fault
+            pinnedTrack: mxserver._317mx_event_pin || null, locked: false, paused: fault
         };
     };
 
@@ -234,12 +239,12 @@
         if (!request) return 0;
         var command = request[1], rank = mxserver.get_rank(slot);
         if (/^restart\s*$/i.test(command) && (restoring || appliedVersion !== selectionVersion)) {
-            mxserver.send(slot, '\x1b[33mThe next track is being selected. Retry server,restart in a moment.\x1b[0m');
+            mxserver.send(slot, '\x1b[0mThe next track is being selected. Retry server,restart in a moment.\x1b[0m');
             return 1;
         }
         if (!/^(Admin|Marshal)$/.test(rank) &&
                 /^(?:at\s+\S+\s+)*(?:erode|settrack)(?:\s|$)/i.test(command)) {
-            mxserver.send(slot, '\x1b[33mUse server,callvote erode # or server,callvote settrack #.\x1b[0m');
+            mxserver.send(slot, '\x1b[0mUse server,callvote erode # or server,callvote settrack #.\x1b[0m');
             return 1;
         }
         if (!/^(Admin|Marshal)$/.test(rank)) return 0;
@@ -319,6 +324,7 @@
         if (mxserver._317mx_event_active) return {error: 'Track and erode voting pause during the event.'};
         synchronize();
         if (fault || restoring) return {error: 'Rotation storage is unavailable. Try again later.'};
+        if (mxserver._317mx_event_pin && /^settrack /.test(command)) return {error: 'The event qualifying track is pinned. Owner: server,event pin off.'};
         var match = /^settrack (\d+)$/.exec(command);
         if (match && Number(match[1]) < tracks.length)
             return {type: 'settrack', track: tracks[Number(match[1])]};
@@ -331,6 +337,7 @@
         if (mxserver._317mx_event_active) return 'Event mode is active.';
         synchronize();
         if (fault || restoring) return 'Rotation storage is unavailable.';
+        if (action.type === 'settrack' && mxserver._317mx_event_pin) return 'The event qualifying track is pinned.';
         if (action.type === 'settrack') {
             // Keep the actual entry identity if an owner edits the list during voting.
             var index = tracks.indexOf(action.track);
@@ -352,6 +359,17 @@
             }
         } else return 'Invalid vote action.';
         return selectNext() ? null : 'Selection could not be queued. Operator attention needed.';
+    };
+    mxserver._317mx_pin_changed = function () {
+        if (mxserver._317mx_event_active) return;
+        synchronize(); visitTrack = null; restartsRemaining = 0; visitPending = false;
+        if (save(defaultIndex())) selectNext();
+    };
+    mxserver._317mx_set_global_erode = function (value) {
+        if (!(value >= 0 && value <= 100)) return false;
+        var before = globalErode; globalErode = value;
+        if (save(state.index)) return true;
+        globalErode = before; return false;
     };
     mxserver.log('317MX admin track controls enabled: manual restarts, three-restart track votes and shared erode.\n');
 }());

@@ -100,7 +100,7 @@ def validate(data, now):
                 trackDir=clean_text(data.get('trackDir'), 240),
                 selectedTrackDir=clean_text(data.get('selectedTrackDir'), 240),
                 configuredTrack=clean_text(data.get('trackDir') or data.get('selectedTrackDir'),240),
-                race=dict(minutes=clean_seconds(race.get('minutes')),eventActive=race.get('eventActive') is True,laps=clean_number(race.get('laps')),erode=clean_seconds(race.get('erode')),
+                race=dict(pinnedTrack=clean_text(race.get('pinnedTrack'),240),minutes=clean_seconds(race.get('minutes')),eventActive=race.get('eventActive') is True,laps=clean_number(race.get('laps')),erode=clean_seconds(race.get('erode')),
                           firstLapGates=clean_number(race.get('firstLapGates')),
                           normalLapGates=clean_number(race.get('normalLapGates')),positionMethod='timing-progress'),
                 rotation=rotation,players=players,trackList=track_list)

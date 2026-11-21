@@ -4,9 +4,11 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import sys
 from datetime import datetime, timezone
 
 ROOT=Path(__file__).resolve().parent
+sys.path.insert(0,str(ROOT/'server'))
 spec=importlib.util.spec_from_file_location('event_api', ROOT/'server/event_api.py')
 api=importlib.util.module_from_spec(spec); spec.loader.exec_module(api)
 
@@ -16,6 +18,7 @@ class EventTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory(); self.folder=Path(self.temp.name)
         self.now=1795226400.0
         config=json.loads((ROOT/'server/event.json').read_text())
+        config.update(track='Mintop MX',trackDir='Mintop',pinTrack=False)
         config['startsAt']=datetime.fromtimestamp(self.now+3600,timezone.utc).isoformat()
         self.director=api.Director(self.folder,config,lambda:self.now)
         self.game=dict(schema=1,generatedAt=self.now*1000,boot='boot1',ack=0,

@@ -15,7 +15,7 @@
     const minutes = snapshot.race?.minutes || 0;
     const settings = (minutes ? minutes+' MINUTES + '+laps+' LAP' : laps ? laps+' LAPS' : 'RACE SETTINGS') +
       (Number.isFinite(erode) ? ' · ERODE '+erode.toFixed(1) : '');
-    const rule = snapshot.race?.eventActive ? 'Test Fun Race event session. The event director controls track selection and restarts. See EVENTS for the lineup and results.' : rotation?.paused ? 'The server is checking its saved track list.' :
+    const rule = snapshot.race?.eventActive ? 'Scheduled event session. The event director controls track selection and restarts. See EVENTS for the lineup and results.' : snapshot.race?.pinnedTrack ? 'The server is pinned to this track for event qualifying. Normal restarts stay here. See EVENTS for the schedule and signups.' : rotation?.paused ? 'The server is checking its saved track list.' :
       'Riders restart races manually. Mintop MX is the default. After a voted track loads, its third restart returns to Mintop, even if races are unfinished. Erode carries across races.';
     return {track: track || null, name: track?.name || snapshot.track || snapshot.trackDir || 'Waiting for first race', waiting:!id&&!name, pending, settings, rule, generatedAt: snapshot.generatedAt};
   }

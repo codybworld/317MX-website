@@ -85,7 +85,7 @@
                 track:text(mxserver.get_string('track_name') || mxserver.get_string('track_dir'),240),
                 trackDir:text(mxserver.get_string('track_dir'),240),
                 selectedTrackDir:text(mxserver._317mx_selected_track_dir,240),
-                race:{minutes:setting('finish_time') / 128 / 60,eventActive:mxserver._317mx_event_active === true,laps:!trackLoaded && rotation ? rotation.laps : setting('finish_laps'),
+                race:{minutes:setting('finish_time') / 128 / 60,eventActive:mxserver._317mx_event_active === true,pinnedTrack:mxserver._317mx_event_pin || null,laps:!trackLoaded && rotation ? rotation.laps : setting('finish_laps'),
                     erode:trackLoaded ? setting('erode') / 1024 : null,
                     firstLapGates:first,normalLapGates:normal,positionMethod:'timing-progress'},
                 rotation:rotation,players:players,
