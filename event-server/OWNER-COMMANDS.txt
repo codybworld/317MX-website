@@ -1,0 +1,91 @@
+317MX TEST FUN RACE - OWNER GUIDE
+Friday November 20, 2026 - 11:30 PM EST (November 21, 04:30 UTC)
+Event: https://317mx.duckdns.org/events.html
+Entries: https://317mx.duckdns.org/events.html#entries
+Results: https://317mx.duckdns.org/events.html#results
+Server: 317mx.duckdns.org:19800
+Owner: your connected game UID 15155. Other riders cannot run event controls.
+
+TONIGHT'S AUTOMATIC PLAN
+Signups and qualifying are open now. At 11:30 PM EST the game captures
+connected Player/Spectator UIDs. The fastest 40 signed-up riders present
+with a clean flying lap on Mintop qualify. Opening laps from the gate do
+not count; complete at least two laps to record your first qualifying time.
+Times persist across restarts and are collected only during this event's
+qualifying window, not taken from all-time records.
+
+The controller announces a one-lap warmup/lineup check, then runs Moto 1
+and Moto 2 (15 minutes + 1 lap each). After checkered there is up to a
+60-second finish window, followed by a 30-second intermission. If everyone
+who started finishes, results can finalize after 5 seconds. A warmup with
+no finisher pauses after 7 minutes; a moto with no finisher pauses after
+25 minutes. Owner can rerun or explicitly finalize it.
+
+Lowest sum of finishing positions wins. Equal totals are broken by the
+better Moto 2 position. 3-1 beats 1-3. 3-3 beats 1-5. DNS scores 41.
+Started DNFs receive a classified finishing position, with a DNF label.
+Cut-adjusted timing is used. Results are provisional until both motos
+are saved. Exact remaining ties share an overall position.
+
+FIRST COMMAND TO TRY
+server,event help
+server,event status
+Replies may take a few seconds. Commands only work from UID 15155.
+
+OWNER CONTROLS - TYPE THESE IN MX SIMULATOR CHAT
+server,event disarm          Cancel the scheduled UID grab; keep qualifying open.
+server,event arm             Re-arm the 11:30 grab before its scheduled time.
+server,event grab            Grab current eligible entrants now.
+server,event auto off        Stop automatically starting the following session.
+server,event auto on         Enable automatic progression for the event.
+server,event pause           Pause event progression (does not freeze bikes).
+server,event resume          Resume the current session, or queue the next one.
+server,event next            Start the next queued session now.
+server,event warmup          Start/rerun the one-lap lineup check.
+server,event moto 1          Start/rerun Moto 1; clears previous moto scores.
+server,event moto 2          Start/rerun Moto 2; requires saved Moto 1.
+server,event rerun           Rerun the current/last session without scoring its aborted attempt.
+server,event finish          Explicitly accept the current results now, even without checkered.
+server,event add 12345       Add that signed-up or connected UID to the roster (maximum 40).
+server,event remove 12345    Remove that UID from the roster and select spectator mode.
+server,event result 1 12345 3   Change that UID's saved Moto 1 position to third.
+server,event result 2 12345 1   Change that UID's saved Moto 2 position to first.
+server,event end             End event control, unlock players/gates, and restore normal Mintop selection.
+
+Replace sample UID 12345 with the rider's actual UID. Result changes swap
+an occupied finishing position with the corrected rider's old position.
+Position 41 means DNS. Correct saved moto results before starting a rerun
+if you want to preserve the race; rerunning replaces those scores.
+
+LATE RIDER / RECONNECT
+After UID grab: server,event add UID
+If already selected, this restores their player mode for the next restart.
+To get everyone on the same gate again: pause, then rerun the session.
+Unselected newcomers stay spectators during the event. No public track,
+erode, or restart votes during event control. You can still set erode
+directly as owner with server,erode #. Event motos keep the current erode.
+
+IF NO ONE QUALIFIES AT 11:30
+The event pauses instead of inventing a lineup. Add the connected friends
+with server,event add UID, then use server,event warmup.
+
+IF A RACE IS RESTARTED EARLY
+No automatic moto score is awarded. The director pauses; use
+server,event rerun. A game-process restart also pauses an active event
+for owner recovery. Saved entries, times and results remain stored.
+
+NORMAL SERVER AFTERWARD
+Event cleanup removes only its temporary one-lap warmup / 15+1 Mintop
+formats, unlocks the lineup and returns selection to the existing
+four-lap Mintop default. Public voting and the three-restart return rule
+resume. Ordinary track files, catalog edits and erode are preserved.
+
+HOSTING / FILES
+Website source: GitHub codybworld/317MX-website (event-server contains source).
+Website deployment: /var/www/317mx on the existing DigitalOcean droplet.
+API/director: /opt/317mx-events; systemd service 317mx-events.
+Saved SQLite data and game bridge files: /var/lib/317mx-events.
+Game bridge: /opt/mxsim/mxserver/js/317mx-event.js.
+The droplet runs the event; your browser and PC do not need to stay open.
+This starter hosts tonight's one Open-class event. Additional formats,
+classes and a multi-event archive can be added in later updates.

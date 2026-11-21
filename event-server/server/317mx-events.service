@@ -1,0 +1,31 @@
+[Unit]
+Description=317MX event signup API and race director
+After=network.target mxsim.service
+
+[Service]
+Type=simple
+User=mxevents
+Group=mxevents
+ExecStart=/usr/bin/python3 /opt/317mx-events/event_api.py
+Restart=on-failure
+RestartSec=3
+Environment=MX_EVENT_DIR=/var/lib/317mx-events
+ReadWritePaths=/var/lib/317mx-events
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET AF_UNIX
+CapabilityBoundingSet=
+LockPersonality=true
+MemoryMax=96M
+TasksMax=20
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

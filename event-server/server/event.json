@@ -1,0 +1,18 @@
+{
+  "id": "test-fun-race-20261120",
+  "title": "Test Fun Race",
+  "track": "Mintop MX",
+  "trackDir": "Mintop",
+  "image": "assets/tracks/46694.webp",
+  "download": "https://forum.mxsimulator.com/viewtopic.php?t=46694",
+  "server": "317mx.duckdns.org:19800",
+  "startsAt": "2026-11-21T04:30:00Z",
+  "displayTime": "Friday, November 20 · 11:30 PM EST",
+  "minutes": 15,
+  "laps": 1,
+  "motos": 2,
+  "limit": 40,
+  "ownerUid": 15155,
+  "finishWindow": 60,
+  "intermission": 30
+}
