@@ -1,0 +1,20 @@
+{
+  "id": "example-scheduled-event",
+  "title": "Example Race",
+  "scheduled": true,
+  "track": "Example Track",
+  "trackDir": "decker",
+  "startsAt": "2099-01-01T04:30:00Z",
+  "displayTime": "Example scheduled start",
+  "pinTrack": true,
+  "ownerUid": 15155,
+  "minutes": 15,
+  "laps": 1,
+  "motos": 2,
+  "limit": 40,
+  "finishWindow": 60,
+  "intermission": 30,
+  "server": "317mx.duckdns.org:19800",
+  "image": null,
+  "download": "https://forum.mxsimulator.com/viewtopic.php?t=57732"
+}

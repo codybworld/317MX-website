@@ -14,19 +14,12 @@
         }
         border();row("* 317MX - CODY B'S SERVER *",true);border();
         row('Website: 317mx.duckdns.org');
-        var meta=mxserver._317mx_event_meta||{};
-        if(mxserver._317mx_event_pin){
-            row('QUALIFYING TRACK: '+(meta.trackName||'Decker Training Facility'));
-            row('Pinned for the upcoming event. Track votes are paused.');
-            row(meta.title||'Decker Fun Race');
-            row('Scheduled start: Nov 21 | 11:30 PM EST');
-            row('Signups, qualifying and results: /events.html');
-        }else{
-            row('Mintop MX is the default outside scheduled events.');
-            row('Track vote: server,callvote settrack #');
-        }
-        if(mxserver._317mx_event_active)row('Event in progress | Owner controls: server,event help');
-        else row('Erode vote: server,callvote erode #');
+        row('Mintop MX is the default | 4 laps | manual restarts.');
+        row('Voted tracks return to Mintop on restart 3 after loading.');
+        border();row('* TRACK AND ERODE VOTING *');border();
+        row('Track vote: server,callvote settrack #');
+        row('Erode vote: server,callvote erode #');
+        row('Vote yes: server,vote yes | Vote no: server,vote no');
         row('Track numbers: server,listtracks');
         border();row('* AVAILABLE TRACKS / INDIVIDUAL DOWNLOADS ON WEBSITE *');border();
         for(var i=0;i<tracks.length;i++)row(i+'. '+tracks[i].name);

@@ -17,7 +17,7 @@ class EventTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(); self.folder=Path(self.temp.name)
         self.now=1795226400.0
-        config=json.loads((ROOT/'server/event.json').read_text())
+        config=json.loads((ROOT/'reference/event-config.json').read_text())
         config.update(track='Mintop MX',trackDir='Mintop',pinTrack=False)
         config['startsAt']=datetime.fromtimestamp(self.now+3600,timezone.utc).isoformat()
         self.director=api.Director(self.folder,config,lambda:self.now)

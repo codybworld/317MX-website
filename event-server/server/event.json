@@ -1,20 +1,4 @@
 {
-  "id": "decker-fun-race-20261121",
-  "title": "Decker Fun Race",
-  "track": "Decker Training Facility",
-  "trackDir": "decker",
-  "image": null,
-  "download": "https://forum.mxsimulator.com/viewtopic.php?t=57732",
-  "server": "317mx.duckdns.org:19800",
-  "startsAt": "2026-11-22T04:30:00Z",
-  "displayTime": "Saturday, November 21 \u00b7 11:30 PM EST",
-  "minutes": 15,
-  "laps": 1,
-  "motos": 2,
-  "limit": 40,
-  "ownerUid": 15155,
-  "finishWindow": 60,
-  "intermission": 30,
-  "credit": "Track creator \u00b7 Palm 189",
-  "pinTrack": true
+  "scheduled": false,
+  "ownerUid": 15155
 }

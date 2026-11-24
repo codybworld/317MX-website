@@ -9,7 +9,7 @@ class FeatureTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.folder=Path(self.temp.name)
         self.now=1795244400.0
-        self.config=json.loads((ROOT/'server/event.json').read_text())
+        self.config=json.loads((ROOT/'reference/event-config.json').read_text())
         self.d=api.Director(self.folder,self.config,lambda:self.now)
         self.game=dict(schema=1,generatedAt=self.now*1000,boot='one',ack=0,people=[],qualifying=[],race=None,
             catalog=[dict(dir='decker',file='/trackinfo/decker.trackinfo',minutes=0,laps=3,eventTrack=False),

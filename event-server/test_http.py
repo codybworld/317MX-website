@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT/'server'))
 import event_api as api
 
 with tempfile.TemporaryDirectory() as folder:
-    api.DIRECTOR=api.Director(folder,json.loads((ROOT/'server/event.json').read_text()))
+    api.DIRECTOR=api.Director(folder,json.loads((ROOT/'reference/event-config.json').read_text()))
     old=json.loads((ROOT/'reference/archived-event.json').read_text())['event'];old.update(archived=True,entriesOpen=False)
     api.DIRECTOR.db.execute('INSERT INTO archives VALUES(?,?,?,?)',(old['event']['id'],old['event']['startsAt'],json.dumps(old),api.DIRECTOR.clock()));api.DIRECTOR.db.commit()
     server=api.Server(('127.0.0.1',0),api.Handler);threading.Thread(target=server.serve_forever,daemon=True).start()

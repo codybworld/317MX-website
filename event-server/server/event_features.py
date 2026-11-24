@@ -31,6 +31,8 @@ class EventFeatures:
             current=self.view()
             finished=[self.summary(json.loads(row['view'])) for row in self.db.execute('SELECT view FROM archives ORDER BY starts_at DESC')]
             upcoming=[];ongoing=[]
+            if not self.scheduled:
+                return dict(current,event=None,upcoming=[],ongoing=[],finished=finished)
             if current['phase'] in ('complete','cancelled'):
                 finished.insert(0,self.summary(current))
             elif self.clock()<self.deadline:upcoming.append(self.summary(current))
@@ -38,7 +40,7 @@ class EventFeatures:
             return dict(current,upcoming=upcoming,ongoing=ongoing,finished=finished)
 
     def public_event(self,event_id):
-        if event_id==self.config['id']:return self.view()
+        if self.scheduled and event_id==self.config['id']:return self.view()
         row=self.db.execute('SELECT view FROM archives WHERE id=?',(event_id,)).fetchone()
         if not row:return None
         view=json.loads(row['view'])
@@ -84,6 +86,7 @@ class EventFeatures:
                 command='announcement'
                 self.say(message.strip())
             elif verb=='entry':
+                if not self.scheduled:raise ValueError('No event is scheduled. Event entries are closed.')
                 uid=str(value.get('uid',''));number=str(value.get('number',''));name=value.get('name')
                 if not re.fullmatch(r'[1-9][0-9]{0,7}',uid) or not re.fullmatch(r'\d{1,4}',number) or not isinstance(name,str) or not name.strip() or len(name)>70 or any(ord(c)<32 for c in name):
                     raise ValueError('Enter a name, numeric UID and race number')

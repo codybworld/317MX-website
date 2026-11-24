@@ -1,130 +1,56 @@
-317MX DECKER FUN RACE - OWNER GUIDE
-Saturday November 21, 2026 - 11:30 PM EST (November 22, 04:30 UTC)
+317MX - NORMAL SERVER SETTINGS
 
-PUBLIC EVENT / ENTRIES / RESULTS
-https://317mx.duckdns.org/events.html
-https://317mx.duckdns.org/events.html#entries
-https://317mx.duckdns.org/events.html#results
 Server: 317mx.duckdns.org:19800
+Website: https://317mx.duckdns.org/
+Owner game UID: 15155
 
-OWNER DASHBOARD
+CURRENT BEHAVIOR
+Mintop MX is the default, with four laps. Races restart manually.
+The shared erode is whatever riders successfully vote for or the owner
+sets. Erode is preserved across races and game process restarts.
+
+A successful track vote selects that track for the next race restart.
+Loading it begins its allowance. Its third subsequent restart returns
+to Mintop, even when the races were restarted before anyone finished.
+The initial load and first two subsequent restarts stay on the voted track.
+Voting for another track renews the allowance for that selection.
+
+PUBLIC IN-GAME COMMANDS
+server,listtracks                 Show the current track numbers.
+server,callvote settrack #         Vote to select a track number.
+server,callvote erode #            Vote to set erode (0 through 100).
+server,vote yes                    Vote yes on the current proposal.
+server,vote no                     Vote no on the current proposal.
+
+Replace # with the actual track number or desired erode amount.
+The bordered welcome lists these commands and the live track catalog.
+It appears once when a rider loads in, including after a race restart.
+Existing lap-time, invalid-lap, holeshot, winner and record notices remain.
+
+OWNER CONTROL
+Your UID 15155 retains its native admin access, including track-list edits
+and direct erode settings. The optional owner dashboard is still available:
 https://317mx.duckdns.org/race-control.html
-Join the game with your owner UID 15155. In game chat type:
-server,event dashboard
+server,event dashboard             Request a private pairing code.
+server,event dashboard logout      Revoke paired dashboard sessions.
+server,event restart               Restart the current race as owner.
 
-An eight-digit code is sent privately to you. Enter it on the dashboard
-within five minutes. It works once; this browser stays signed in for
-seven days. Other players cannot request an owner code. Session cookies
-are Secure, HttpOnly and SameSite=Strict; owner changes require CSRF
-protection. Codes and session tokens are stored as hashes, not plaintext.
-To sign out all paired browsers, type:
-server,event dashboard logout
+The dashboard is in NORMAL SERVER mode. Erasing the cancelled schedule
+does not require you to sign out. Server restart, erode and white-text
+announcement controls remain available. No event is armed or scheduled;
+event starts, signup overrides and lineup controls are disabled.
 
-The dashboard refreshes every second while visible. It shows the event
-stage, native game feed freshness, event track pin, erode, lineup,
-qualifying times and action history. Native actions are marked QUEUED
-until the game acknowledges them. Database-only changes show SAVED.
-The public entry list and qualifying page refresh every five seconds.
+EVENTS AND SAVED RESULTS
+https://317mx.duckdns.org/events.html
+The Decker event was removed. It is not published as a finished race.
+The earlier completed Test Fun Race and its saved results remain.
+Public entries for finished events stay closed.
 
-TONIGHT'S PLAN
-Decker Training Facility is pinned for qualifying. Ordinary restarts
-stay on Decker, and track changes/votes cannot move it while pinned.
-The normal qualifying format is the existing three-lap Decker setting.
-Your current erode is retained; it is not reset by this event update.
-
-Public signups close at the scheduled start time, even if the controller
-is paused or the UID grab is disarmed. Finished events never accept
-public signups. The completed Mintop Test Fun Race, its entries and
-both saved moto results are available in Finished Events.
-
-At 11:30 PM EST the game captures connected Player/Spectator UIDs.
-The fastest 40 signed-up riders present with a clean flying lap on
-Decker qualify. Opening laps from the gate do not count: complete at
-least two laps for your first qualifying time. Times persist across
-restarts and are collected during this event's qualifying window.
-
-The controller runs a one-lap lineup check/warmup, then Moto 1 and Moto 2
-(15 minutes + 1 lap each). After checkered there is up to a 60-second
-finish window, followed by a 30-second intermission. If all starters
-finish, results can finalize after five seconds. No-finisher timeouts
-pause the event after seven minutes in warmup or 25 minutes in a moto.
-
-Lowest sum of moto positions wins; better Moto 2 finish breaks ties.
-3-1 beats 1-3. 3-3 beats 1-5. DNS scores 41. Started DNFs receive their
-classified finishing position with a DNF label. Cut-adjusted timing is
-used. Results are provisional until both motos are saved; exact remaining
-ties share an overall position. Owner corrections remain possible.
-
-MANUAL OPERATION
-Use MANUAL PROGRESSION to prevent the next session starting automatically.
-Use DISARM SCHEDULED START if you do not want the 11:30 UID grab to run
-automatically. Public entries still close at 11:30. GRAB UIDS NOW captures
-eligible riders currently present. Then LINEUP CHECK / WARMUP, START MOTO
-1 and START MOTO 2 let you run each stage yourself. NEXT SESSION starts
-the queued next stage. PAUSE PROGRESSION stops event progression; it
-does not freeze bikes. During qualifying, PAUSE disarms the UID grab:
-use ARM SCHEDULED START to re-arm before 11:30.
-
-The dashboard can register or correct an entry as owner, add/remove a UID
-from the selected lineup after UID grab, correct saved moto positions,
-change erode, send a white bordered announcement and restart the current
-race. The public signup deadline does not remove your owner override.
-Roster is capped at 40. Adding an already-selected rider restores their
-player mode for the next restart. Unselected newcomers remain spectators
-while event control is active. Event starts/reruns and result corrections
-have a confirmation dialog so a stray click cannot trigger them.
-
-IN-GAME COMMANDS (OWNER UID 15155 ONLY)
-server,event help
-server,event status
-server,event dashboard       Request a private dashboard pairing code.
-server,event dashboard logout Revoke all paired dashboard browsers.
-server,event disarm          Cancel scheduled UID grab; deadline unchanged.
-server,event arm             Re-arm scheduled UID grab before start time.
-server,event grab            Capture current eligible entrants.
-server,event auto off        Use manual progression for following sessions.
-server,event auto on         Enable automatic event progression.
-server,event pause           Pause event progression, not bikes.
-server,event resume          Resume a paused event session.
-server,event next            Start the next queued session now.
-server,event warmup          Start/rerun one-lap lineup check.
-server,event moto 1          Start/rerun Moto 1; replaces previous moto scores.
-server,event moto 2          Start/rerun Moto 2; requires saved Moto 1.
-server,event rerun           Rerun current/last session without scoring the abort.
-server,event finish          Explicitly accept current results now.
-server,event add 12345       Add signed-up/connected UID to roster (maximum 40).
-server,event remove 12345    Remove UID from roster and select spectator mode.
-server,event result 1 12345 3 Correct UID's saved Moto 1 position to third.
-server,event result 2 12345 1 Correct UID's saved Moto 2 position to first.
-server,event end             End event, unlock lineup and restore pinned Decker.
-server,event pin off         Release the qualifying pin outside active event races.
-server,event pin on          Pin Decker again outside active event races.
-server,event restart         Restart the current game race.
-
-Replace sample UID 12345 with the actual rider UID. Position corrections
-swap an occupied position with that rider's old position. Position 41 is
-DNS. Rerunning replaces saved scores for that moto. Rerunning Moto 1 also
-clears Moto 2 so overalls cannot combine results from different attempts.
-
-RECOVERY AND TRACK PIN
-If no one qualifies, the event pauses. Add friends as owner, then run
-warmup. If a race is restarted early, the director pauses without awarding
-that aborted moto. Use RERUN SESSION. A game process restart pauses an
-active event; saved entries, times and results survive.
-
-After both motos, event cleanup removes only its temporary Decker
-warmup/15+1 formats and unlocks the lineup. Decker stays pinned until you
-release it. Releasing the pin outside active event control restores the
-ordinary four-lap Mintop default and existing three-restart track-vote
-behavior. All ordinary track files, catalog edits and shared erode remain.
-Owner native commands remain available where they do not conflict with
-the active event lineup. Use dashboard erode or server,erode # for erode.
-
-HOSTING / SOURCE
-GitHub: codybworld/317MX-website, with event-server containing server source.
-HTTPS site: /var/www/317mx on your existing DigitalOcean droplet.
-Director: /opt/317mx-events, service 317mx-events, loopback port 8767.
-SQLite data and game bridge files: /var/lib/317mx-events (not in GitHub).
-Native bridge: /opt/mxsim/mxserver/js/317mx-event.js.
-Completed races are saved as independent archived event snapshots.
-Your computer/browser does not need to stay open for the scheduled event.
+HOSTING
+GitHub source: codybworld/317MX-website
+HTTPS website: /var/www/317mx on the existing DigitalOcean droplet.
+Native game scripts: /opt/mxsim/mxserver/js.
+The optional dashboard and saved-event API are served by 317mx-events.
+Its event.json contains scheduled:false. No scheduled race runs while
+that configuration is disabled. Private data and rollback backups are
+kept on the droplet and are not copied to GitHub.

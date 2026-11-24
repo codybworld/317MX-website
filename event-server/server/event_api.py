@@ -62,6 +62,12 @@ def overall(roster, motos):
 
 class Director(EventFeatures):
     def __init__(self, folder, config, clock=time.time):
+        self.scheduled = config.get('scheduled', True) is not False
+        if not self.scheduled:
+            config = dict(id='none', scheduled=False, ownerUid=config.get('ownerUid',15155),
+                title='No scheduled event', track='Mintop MX', trackDir='Mintop',
+                startsAt=None, displayTime='No scheduled start', pinTrack=False,
+                minutes=0, laps=4, motos=0, limit=40, finishWindow=60, intermission=30)
         self.folder, self.config, self.clock = Path(folder), config, clock
         self.folder.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
@@ -74,12 +80,12 @@ class Director(EventFeatures):
           CREATE TABLE IF NOT EXISTS requests(id TEXT PRIMARY KEY,command TEXT,at REAL);
         ''')
         found = self.db.execute('SELECT value FROM state WHERE id=1').fetchone()
-        self.state = json.loads(found[0]) if found else dict(phase='qualifying', armed=True,
-            automatic=True, openedAt=clock(), roster=[], motos={}, queue=[], actionSeq=0,
+        self.state = json.loads(found[0]) if found else dict(phase='qualifying' if self.scheduled else 'idle', armed=self.scheduled,
+            automatic=self.scheduled, openedAt=clock(), roster=[], motos={}, queue=[], actionSeq=0,
             notices=[], sent=[], nextKind=None, run=None, boot=None, error=None)
         self.game = None
         self.rates = {}
-        self.deadline = datetime.fromisoformat(config['startsAt'].replace('Z', '+00:00')).timestamp()
+        self.deadline = datetime.fromisoformat(config['startsAt'].replace('Z', '+00:00')).timestamp() if self.scheduled else 0
         self.init_features()
         self.save()
 
@@ -94,12 +100,12 @@ class Director(EventFeatures):
         self._heartbeat=self.clock()
         queued = self.state['queue']
         atomic_json(self.folder / 'control.json', dict(
-            active=self.state['phase'] not in ('qualifying', 'complete', 'cancelled'),
+            active=self.scheduled and self.state['phase'] not in ('idle', 'qualifying', 'complete', 'cancelled'),
             phase=self.state['phase'], action=queued[0] if queued else None,
             eventId=self.config['id'],trackDir=self.config['trackDir'],title=self.config['title'],
             trackName=self.config['track'],pinTrack=self.config['trackDir'] if self.state['pin'] else None,
             roster=[p['uid'] for p in self.state['roster']],
-            generatedAt=self.clock(), deadline=self.deadline if hasattr(self,'deadline') else None,
+            generatedAt=self.clock(), deadline=self.deadline if self.scheduled else None,
             countdownAt=self.deadline if self.state['phase']=='qualifying' and self.state['armed'] else
                 self.state.get('nextAt') if self.state['phase']=='intermission' and self.state['automatic'] else None,
             countdownLabel='UID GRAB' if self.state['phase']=='qualifying' else 'NEXT SESSION',
@@ -125,7 +131,7 @@ class Director(EventFeatures):
 
     def signup(self, value, ip):
         with self.lock:
-            if self.state['phase'] != 'qualifying' or self.clock() >= self.deadline:
+            if not self.scheduled or self.state['phase'] != 'qualifying' or self.clock() >= self.deadline:
                 raise ValueError('Signups closed. This event has reached its scheduled start time.')
             if not isinstance(value, dict) or isinstance(value.get('uid'), bool):
                 raise ValueError('Enter your name, race number and numeric UID.')
@@ -171,8 +177,8 @@ class Director(EventFeatures):
                     present=bool(p and p.get('status') in ('Player','Spectator')),
                     qualified=row['uid'] in qualified)
                 row.pop('created', None)
-            return dict(event=self.config, phase=self.state['phase'], armed=self.state['armed'],
-                automatic=self.state['automatic'], entriesOpen=self.state['phase']=='qualifying' and self.clock()<self.deadline,
+            return dict(event=self.config, scheduled=self.scheduled, phase=self.state['phase'], armed=self.state['armed'],
+                automatic=self.state['automatic'], entriesOpen=self.scheduled and self.state['phase']=='qualifying' and self.clock()<self.deadline,
                 qualifyingOpenedAt=self.state['openedAt'], entries=rows, roster=self.state['roster'],
                 motos=self.state['motos'], overall=overall(self.state['roster'], self.state['motos']) if self.state['motos'] else [],
                 overallFinal='1' in self.state['motos'] and '2' in self.state['motos'],
@@ -300,8 +306,10 @@ class Director(EventFeatures):
 
     def command(self, command):
         words=command.strip().split()
+        if not self.scheduled and words and words[0] not in ('help','status','dashboard','restart'):
+            raise ValueError('No event is scheduled. Normal track and erode votes are enabled.')
         if not words or words[0] in ('help','status'):
-            self.reply('Event '+self.state['phase']+' | '+str(len(self.state['roster']))+' riders | auto '+str(self.state['automatic']))
+            self.reply('Normal server mode | Mintop default | track and erode votes enabled' if not self.scheduled else 'Event '+self.state['phase']+' | '+str(len(self.state['roster']))+' riders | auto '+str(self.state['automatic']))
             if not words or words[0]=='help':
                 self.reply('server,event dashboard | status | grab | warmup | moto 1/2 | next')
                 self.reply('pause | resume | auto on/off | add UID | remove UID | finish | rerun')
@@ -400,7 +408,7 @@ class Director(EventFeatures):
             except (OSError,ValueError,TypeError): pass
             if self.fresh():
                 boot=self.game.get('boot')
-                if self.state['boot'] and boot!=self.state['boot'] and self.state['phase'] not in ('qualifying','complete','cancelled'):
+                if self.state['boot'] and boot!=self.state['boot'] and self.state['phase'] not in ('idle','qualifying','complete','cancelled'):
                     self.state['queue']=[]
                     self.state['phase']='paused'
                     self.state['error']='Game server restarted. Owner: use event resume or event rerun.'
